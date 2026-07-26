@@ -130,9 +130,23 @@ When using the Web Simulator, you can use your physical keyboard to simulate Rok
 
 ---
 
+### Configuração de Ambiente (`.env`)
+
+Crie ou edite o arquivo `.env` na raiz do projeto para configurar as credenciais da sua Roku TV:
+
+```env
+# IP address or hostname of the Roku device to run the device tests against
+ROKU_HOST=10.0.0.171
+
+# Developer password for that device (set when you enabled developer mode)
+ROKU_PASSWORD=sobeoapp
+```
+
+---
+
 ## 🚀 Como Fazer o Deploy do App na Roku TV (Passo a Passo)
 
-Você pode realizar o empacotamento e o deploy na sua Roku TV de **três formas**: usando **Node.js (Recomendado - Oficial via `roku-deploy`)**, **Python**, ou **Sideloading Manual pelo Navegador**.
+Você pode realizar o empacotamento e o deploy na sua Roku TV de **três formas**: usando **Node.js (Recomendado - Oficial via `roku-deploy`)**, **Python**, ou **Sideloading Manual pelo Navegador**. Todos os arquivos empacotados e artefatos de deploy são gerados automaticamente na pasta **`/deploy`** na raiz do projeto (`deploy/roku-channel.zip`).
 
 ### 1. Habilitar o Modo Desenvolvedor na Roku TV
 Antes de qualquer deploy, ative o Modo Desenvolvedor na sua Roku TV:
@@ -150,40 +164,46 @@ Antes de qualquer deploy, ative o Modo Desenvolvedor na sua Roku TV:
 
 ---
 
-### Opção A: Deploy via Node.js (Recomendado - Usando `roku-deploy`)
+### Opção A: Deploy via Node.js (`deploy-node` - Recomendado via `roku-deploy`)
 
-Utiliza a biblioteca oficial da comunidade Roku (`roku-deploy`) para empacotar os arquivos e realizar o upload HTTP Digest diretamente para a TV.
+Utiliza a biblioteca oficial da comunidade Roku (`roku-deploy`) para empacotar os arquivos na pasta `deploy/` e realizar o upload HTTP Digest diretamente para a TV.
 
 ```bash
-# Empacotar e enviar direto para a Roku TV:
-npm run deploy:roku 10.0.0.171 sobeoapp
+# Executar deploy usando configurações do .env:
+npm run deploy-node
 
-# Ou apenas empacotar e gerar o roku-channel.zip:
-npm run package:roku
+# Ou passar IP e Senha diretamente como argumentos:
+npm run deploy-node 10.0.0.171 sobeoapp
+
+# Apenas empacotar e gerar deploy/roku-channel.zip:
+npm run package-node
 ```
 
 ---
 
-### Opção B: Deploy via Python
+### Opção B: Deploy via Python (`deploy-py`)
 
 Permite o envio via script Python (compatível com Windows, macOS e Linux sem depender de utilitários externos):
 
 ```bash
-# Empacotar e enviar via Python:
-python scripts/deploy-roku.py 10.0.0.171 sobeoapp
+# Executar deploy via Python usando .env:
+npm run deploy-py
 
-# Ou apenas empacotar via Python:
-python scripts/package-roku.py
+# Ou passar IP e Senha como argumentos:
+npm run deploy-py 10.0.0.171 sobeoapp
+
+# Apenas empacotar via Python (gera deploy/roku-channel.zip):
+npm run package-py
 ```
 
 ---
 
 ### Opção C: Sideloading Manual pelo Navegador Web
 
-1. Gere o arquivo de pacote executando `npm run package:roku` (ou baixe direto pelo botão **Download roku-channel.zip** do Simulador Web).
+1. Gere o arquivo de pacote executando `npm run package-node` (o arquivo `roku-channel.zip` será gerado na pasta `deploy/`).
 2. Abra o seu navegador e acesse o IP da Roku TV: `http://10.0.0.171`
 3. Faça login com usuário `rokudev` e a senha definida no Modo Desenvolvedor (`sobeoapp`).
-4. Na tela do **Roku Development Application Installer**, selecione o arquivo `roku-channel.zip` e clique no botão **Install**.
+4. Na tela do **Roku Development Application Installer**, selecione o arquivo `deploy/roku-channel.zip` e clique no botão **Install**.
 
 ---
 

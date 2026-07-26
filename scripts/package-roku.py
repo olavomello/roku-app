@@ -10,8 +10,28 @@ if scripts_dir not in sys.path:
 
 from generate_assets import generate_roku_assets
 
+def load_env():
+    env_path = os.path.join(os.getcwd(), ".env")
+    if os.path.exists(env_path):
+        with open(env_path, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line or line.startswith("#"):
+                    continue
+                if "=" in line:
+                    key, val = line.split("=", 1)
+                    key = key.strip()
+                    val = val.strip()
+                    if key not in os.environ:
+                        os.environ[key] = val
+
 def package_roku():
-    output_filename = "roku-channel.zip"
+    load_env()
+    
+    deploy_dir = os.path.join(os.getcwd(), "deploy")
+    os.makedirs(deploy_dir, exist_ok=True)
+    
+    output_filename = os.path.join(deploy_dir, "roku-channel.zip")
     public_output = os.path.join("public", "roku-channel.zip")
     
     # 1. Ensure required assets exist
@@ -33,9 +53,8 @@ def package_roku():
         "assets"
     ]
 
-    print("📦 Packaging Roku SceneGraph Channel into roku-channel.zip (Roku OS strict compatibility mode)...")
+    print("📦 [Python] Packaging Roku SceneGraph Channel into deploy/roku-channel.zip (Roku OS strict compatibility mode)...")
 
-    # Collect directories and files
     dirs_to_add = set()
     files_to_add = [] # list of (filepath, arcname)
 
@@ -70,11 +89,6 @@ def package_roku():
 
     sorted_dirs = sorted(list(dirs_to_add))
 
-    # Create ZIP archive with strict Roku OS minizip compatibility:
-    # - No UTF-8 flag (flag_bits = 0)
-    # - No Zip64
-    # - Explicit Unix external_attr permissions
-    # - Clean extra fields (extra = b'')
     with zipfile.ZipFile(output_filename, 'w', compression=zipfile.ZIP_DEFLATED, allowZip64=False) as zipf:
         # Add Directory Entries
         for dir_path in sorted_dirs:
@@ -110,7 +124,7 @@ def package_roku():
         dst.write(src.read())
 
     size_kb = os.path.getsize(output_filename) / 1024
-    print(f"\n✅ Roku channel package built successfully: {output_filename} ({size_kb:.2f} KB)")
+    print(f"\n✅ Roku channel package built successfully in deploy folder: {output_filename} ({size_kb:.2f} KB)")
     print(f"✅ Web download link: /roku-channel.zip")
 
 if __name__ == "__main__":
