@@ -1,4 +1,4 @@
-# 📺 Roku TV App — SceneGraph & Interactive Web Simulator
+# 📺 Roku TV App — SceneGraph & Interactive Web Player
 
 [![Roku SceneGraph](https://img.shields.io/badge/Roku-SceneGraph_OS-662D91?style=for-the-badge&logo=roku&logoColor=white)](https://developer.roku.com/)
 [![BrightScript](https://img.shields.io/badge/Language-BrightScript-blue?style=for-the-badge)](https://developer.roku.com/docs/references/brightscript/language/brightscript-language-reference.md)
@@ -6,7 +6,13 @@
 [![Vite](https://img.shields.io/badge/Bundler-Vite_6.0-646CFF?style=for-the-badge&logo=vite&logoColor=white)](https://vitejs.dev/)
 [![CI / Quality Gates](https://img.shields.io/badge/CI-GitHub_Actions-2088FF?style=for-the-badge&logo=githubactions&logoColor=white)](https://github.com/olavomello/roku-app/actions)
 
-Official production-grade **Roku TV App** built with **Roku SceneGraph (BrightScript + XML)** following official Roku Developer Guidelines and Content Feed Specifications. Includes a high-fidelity **interactive Web Simulator** with on-screen D-pad remote control, feed inspector, unit test suite, and continuous quality gates.
+Production-grade **Roku TV App** built with **Roku SceneGraph (BrightScript + XML)** following official Roku Developer Guidelines and Content Feed Specifications. Includes a high-fidelity **interactive Web Simulator** with on-screen D-pad remote control, feed inspector, unit test suite, and continuous quality gates.
+
+---
+
+## Live app
+
+Check this out: [📺 Live app](https://roku-app.vercel.app)
 
 ---
 
@@ -74,25 +80,30 @@ roku-app/
 ## 🛠️ Installation & Getting Started
 
 ### Prerequisites
+
 - **Node.js**: v18.0.0 or higher
 - **npm**: v9.0.0 or higher
-- *(Optional)* **Roku Device**: For side-loading onto physical hardware
+- _(Optional)_ **Roku Device**: For side-loading onto physical hardware
 
 ### 1. Clone the Repository
+
 ```bash
 git clone https://github.com/olavomello/roku-app.git
 cd roku-app
 ```
 
 ### 2. Install Dependencies
+
 ```bash
 npm install
 ```
 
 ### 3. Run Development Web Simulator
+
 ```bash
 npm run dev
 ```
+
 Open your browser at `http://localhost:3000` to interact with the Roku TV application.
 
 ---
@@ -118,15 +129,15 @@ npm run build
 
 When using the Web Simulator, you can use your physical keyboard to simulate Roku TV remote button presses:
 
-| Key | Roku Remote Button | Description |
-| :--- | :--- | :--- |
-| `▲` / `Up Arrow` | **DPad Up** | Move focus up |
-| `▼` / `Down Arrow` | **DPad Down** | Move focus down |
-| `◄` / `Left Arrow` | **DPad Left** | Move focus left |
-| `►` / `Right Arrow` | **DPad Right** | Move focus right |
-| `Enter` / `Space` | **OK / Select** | Select item / Play video / Pause |
-| `Escape` / `Backspace` | **Back** | Return to previous screen / Catalog |
-| `*` / `Shift` | **Option (*)** | Open Feed Inspector modal |
+| Key                    | Roku Remote Button | Description                         |
+| :--------------------- | :----------------- | :---------------------------------- |
+| `▲` / `Up Arrow`       | **DPad Up**        | Move focus up                       |
+| `▼` / `Down Arrow`     | **DPad Down**      | Move focus down                     |
+| `◄` / `Left Arrow`     | **DPad Left**      | Move focus left                     |
+| `►` / `Right Arrow`    | **DPad Right**     | Move focus right                    |
+| `Enter` / `Space`      | **OK / Select**    | Select item / Play video / Pause    |
+| `Escape` / `Backspace` | **Back**           | Return to previous screen / Catalog |
+| `*` / `Shift`          | **Option (\*)**    | Open Feed Inspector modal           |
 
 ---
 
@@ -149,15 +160,17 @@ ROKU_PASSWORD=sobeoapp
 Você pode realizar o empacotamento e o deploy na sua Roku TV de **três formas**: usando **Node.js (Recomendado - Oficial via `roku-deploy`)**, **Python**, ou **Sideloading Manual pelo Navegador**. Todos os arquivos empacotados e artefatos de deploy são gerados automaticamente na pasta **`/deploy`** na raiz do projeto (`deploy/roku-channel.zip`).
 
 ### 1. Habilitar o Modo Desenvolvedor na Roku TV
+
 Antes de qualquer deploy, ative o Modo Desenvolvedor na sua Roku TV:
+
 1. No controle remoto da Roku TV, pressione a sequência exata de botões:
-   - **Home** (5 vezes)
-   - **Seta para Cima / Up** (3 vezes)
-   - **Seta para Direita / Right** (1 vez)
-   - **Seta para Esquerda / Left** (1 vez)
-   - **Seta para Direita / Right** (1 vez)
-   - **Seta para Esquerda / Left** (1 vez)
-   - **Seta para Direita / Right** (1 vez)
+    - **Home** (5 vezes)
+    - **Seta para Cima / Up** (3 vezes)
+    - **Seta para Direita / Right** (1 vez)
+    - **Seta para Esquerda / Left** (1 vez)
+    - **Seta para Direita / Right** (1 vez)
+    - **Seta para Esquerda / Left** (1 vez)
+    - **Seta para Direita / Right** (1 vez)
 2. Anote o **IP da Roku TV** exibido na tela (exemplo: `10.0.0.171`).
 3. Escolha **Enable developer settings and restart**.
 4. Aceite os termos e defina uma **senha do desenvolvedor** (exemplo: `sobeoapp`). A TV irá reiniciar.
