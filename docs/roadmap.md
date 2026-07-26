@@ -1,3 +1,0 @@
-# Roadmap
-
-Sprint 1.
