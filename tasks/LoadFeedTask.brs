@@ -12,7 +12,7 @@ sub executeTask()
     url = m.top.url
     jsonString = ""
 
-    if url.left(4) = "http"
+    if left(url, 4) = "http"
         http = CreateObject("roUrlTransfer")
         http.SetCertificatesFile("common:/certs/ca-bundle.crt")
         http.InitClientCertificates()

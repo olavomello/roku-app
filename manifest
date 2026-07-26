@@ -9,6 +9,8 @@ mm_icon_focus_hd=pkg:/assets/images/icon_hd.png
 mm_icon_focus_fhd=pkg:/assets/images/icon_fhd.png
 splash_screen_hd=pkg:/assets/images/splash_hd.png
 splash_screen_fhd=pkg:/assets/images/splash_fhd.png
+splash_color=#0F172A
+splash_min_time=1000
 
 # Display Configurations
 ui_resolutions=fhd

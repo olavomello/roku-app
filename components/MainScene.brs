@@ -9,6 +9,11 @@ sub init()
     m.homeScene = m.top.findNode("homeScene")
     m.playerScene = m.top.findNode("playerScene")
 
+    ' Set initial focus to HomeScene immediately
+    if m.homeScene <> invalid
+        m.homeScene.setFocus(true)
+    end if
+
     ' Observe events from HomeScene
     m.homeScene.observeField("selectedVideo", "onVideoSelected")
 
@@ -27,7 +32,7 @@ sub loadContentFeed()
 end sub
 
 sub onFeedLoaded()
-    if m.feedTask.content <> invalid
+    if m.feedTask <> invalid and m.feedTask.content <> invalid
         m.log.info("Feed loaded successfully")
         m.homeScene.content = m.feedTask.content
         m.homeScene.setFocus(true)
@@ -44,6 +49,12 @@ sub onVideoSelected()
         m.playerScene.content = selectedVideo
         m.playerScene.visible = true
         m.playerScene.setFocus(true)
+    end if
+end sub
+
+sub onPlayerStateChanged()
+    if m.playerScene <> invalid and m.log <> invalid
+        m.log.info("Player state changed: " + m.playerScene.state)
     end if
 end sub
 

@@ -1,10 +1,46 @@
 {
-  "videos":[
+  "videos": [
     {
-      "id":"1",
-      "title":"Vídeo Exemplo",
-      "thumbnail":"https://example.com/thumb.jpg",
-      "url":"https://example.com/video.mp4"
+      "id": "1",
+      "title": "Big Buck Bunny",
+      "description": "Big Buck Bunny tells the story of a giant rabbit with a heart bigger than himself.",
+      "thumbnail": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/BigBuckBunny.jpg",
+      "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
+    },
+    {
+      "id": "2",
+      "title": "Elephant Dream",
+      "description": "The first Blender Open Movie Project.",
+      "thumbnail": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/ElephantsDream.jpg",
+      "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4"
+    },
+    {
+      "id": "3",
+      "title": "For Bigger Blazes",
+      "description": "HBO GO now available on Chromecast.",
+      "thumbnail": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerBlazes.jpg",
+      "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4"
+    },
+    {
+      "id": "4",
+      "title": "For Bigger Escape",
+      "description": "Introducing Chromecast. The easiest way to enjoy online video on your TV.",
+      "thumbnail": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/ForBiggerEscapes.jpg",
+      "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4"
+    },
+    {
+      "id": "5",
+      "title": "Sintel",
+      "description": "The third Blender Open Movie Project.",
+      "thumbnail": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/Sintel.jpg",
+      "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/Sintel.mp4"
+    },
+    {
+      "id": "6",
+      "title": "Tears of Steel",
+      "description": "Exploring a dystopian future in Amsterdam.",
+      "thumbnail": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/images/TearsOfSteel.jpg",
+      "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4"
     }
   ]
 }
