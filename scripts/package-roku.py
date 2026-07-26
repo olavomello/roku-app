@@ -44,9 +44,9 @@ def package_roku():
         "manifest",
         "source",
         "components",
-        "screens",
+        # "screens" and "tasks" excluded: canonical BRS+XML now live under components/screens/ and components/tasks/
+        # Including them would create duplicate component definitions that break Roku SceneGraph loading
         "services",
-        "tasks",
         "models",
         "utils",
         "feeds",
