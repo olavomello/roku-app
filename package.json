@@ -10,8 +10,8 @@
     "lint": "tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",
-    "package:roku": "python3 scripts/package-roku.py",
-    "deploy:roku": "python3 scripts/deploy-roku.py"
+    "package:roku": "node scripts/package-roku.js",
+    "deploy:roku": "node scripts/deploy-roku.js"
   },
   "dependencies": {
     "clsx": "^2.1.1",

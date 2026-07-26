@@ -15,7 +15,6 @@ def create_png(width, height, color_rgb=(102, 45, 145)):
     ihdr_chunk = struct.pack('>I', len(ihdr_data)) + b'IHDR' + ihdr_data + struct.pack('>I', ihdr_crc)
     
     # IDAT chunk (image data)
-    # Each row starts with filter byte 0x00, followed by RGB bytes for each pixel
     row_bytes = b'\x00' + bytes([r, g, b] * width)
     raw_data = row_bytes * height
     compressed_data = zlib.compress(raw_data)
@@ -31,13 +30,10 @@ def create_png(width, height, color_rgb=(102, 45, 145)):
 def generate_roku_assets():
     os.makedirs("assets/images", exist_ok=True)
     
-    # Roku standard required icon & splash resolutions:
-    # HD Icon: 290x218
-    # FHD Icon: 540x360
-    # Splash FHD: 1920x1080
     assets = [
         ("assets/images/icon_hd.png", 290, 218),
         ("assets/images/icon_fhd.png", 540, 360),
+        ("assets/images/splash_hd.png", 1280, 720),
         ("assets/images/splash_fhd.png", 1920, 1080)
     ]
     
