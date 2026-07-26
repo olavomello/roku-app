@@ -192,7 +192,8 @@ function FeedParser_NormalizeItem(item as Object, idx as Integer, fallbacks as O
     else if item.Genre <> invalid
         ' Take first genre from comma-separated list
         genres = item.Genre.split(",")
-        node.categories = genres[0].trim()
+        firstGenre = genres[0]
+        node.categories = firstGenre
     else if item.genre <> invalid
         node.categories = item.genre
     else if item.genres <> invalid and type(item.genres) = "roArray" and item.genres.count() > 0

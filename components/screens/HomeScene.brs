@@ -97,7 +97,11 @@ sub updateSpotlight(itemPos as Object)
 
     ' Rating — mirrors rating badge
     if m.focusedRating <> invalid
-        m.focusedRating.text = (video.ratingValue <> invalid and video.ratingValue <> "") ? video.ratingValue : "G"
+        if video.ratingValue <> invalid and video.ratingValue <> ""
+            m.focusedRating.text = video.ratingValue
+        else
+            m.focusedRating.text = "G"
+        end if
     end if
 
     ' Duration — mirrors formatDuration(focusedVideo.duration)
@@ -106,7 +110,9 @@ sub updateSpotlight(itemPos as Object)
         if video.length <> invalid then dur = video.length
         mins = int(dur / 60)
         secs = dur mod 60
-        m.focusedDuration.text = mins.toStr() + ":" + (secs < 10 ? "0" : "") + secs.toStr()
+        secsPrefix = ""
+        if secs < 10 then secsPrefix = "0"
+        m.focusedDuration.text = mins.toStr() + ":" + secsPrefix + secs.toStr()
     end if
 
     ' Category — mirrors category badge

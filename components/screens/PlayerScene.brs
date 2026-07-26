@@ -170,9 +170,11 @@ end sub
 ' Mirrors: formatTime(secs) in PlayerScene.tsx
 function fmtSec(secs as Float) as String
     if secs < 0 then secs = 0
-    m = int(secs / 60)
+    mins = int(secs / 60)
     s = int(secs) mod 60
-    return m.toStr() + ":" + (s < 10 ? "0" : "") + s.toStr()
+    secsPrefix = ""
+    if s < 10 then secsPrefix = "0"
+    return mins.toStr() + ":" + secsPrefix + s.toStr()
 end function
 
 ' Mirrors: global keydown listener (Space/OK → play/pause, ◄/► → seek, Esc/Back → navigate)
@@ -185,7 +187,8 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
     if key = "play" or key = "pause" or key = "OK"
         ' Mirrors: togglePlayPause()
         if m.videoPlayer <> invalid
-            ctrl = (m.videoPlayer.state = "playing") ? "pause" : "play"
+            ctrl = "play"
+            if m.videoPlayer.state = "playing" then ctrl = "pause"
             m.videoPlayer.control = ctrl
             m.log.info("Toggle play/pause → " + ctrl)
         end if

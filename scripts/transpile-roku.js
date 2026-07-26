@@ -447,7 +447,8 @@ function FeedParser_NormalizeItem(item as Object, idx as Integer, fallbacks as O
     else if item.Genre <> invalid
         ' Take first genre from comma-separated list
         genres = item.Genre.split(",")
-        node.categories = genres[0].trim()
+        firstGenre = genres[0]
+        node.categories = firstGenre
     else if item.genre <> invalid
         node.categories = item.genre
     else if item.genres <> invalid and type(item.genres) = "roArray" and item.genres.count() > 0
@@ -1360,7 +1361,11 @@ sub updateSpotlight(itemPos as Object)
 
     ' Rating — mirrors rating badge
     if m.focusedRating <> invalid
-        m.focusedRating.text = (video.ratingValue <> invalid and video.ratingValue <> "") ? video.ratingValue : "G"
+        if video.ratingValue <> invalid and video.ratingValue <> ""
+            m.focusedRating.text = video.ratingValue
+        else
+            m.focusedRating.text = "G"
+        end if
     end if
 
     ' Duration — mirrors formatDuration(focusedVideo.duration)
@@ -1369,7 +1374,9 @@ sub updateSpotlight(itemPos as Object)
         if video.length <> invalid then dur = video.length
         mins = int(dur / 60)
         secs = dur mod 60
-        m.focusedDuration.text = mins.toStr() + ":" + (secs < 10 ? "0" : "") + secs.toStr()
+        secsPrefix = ""
+        if secs < 10 then secsPrefix = "0"
+        m.focusedDuration.text = mins.toStr() + ":" + secsPrefix + secs.toStr()
     end if
 
     ' Category — mirrors category badge
@@ -1798,9 +1805,11 @@ end sub
 ' Mirrors: formatTime(secs) in PlayerScene.tsx
 function fmtSec(secs as Float) as String
     if secs < 0 then secs = 0
-    m = int(secs / 60)
+    mins = int(secs / 60)
     s = int(secs) mod 60
-    return m.toStr() + ":" + (s < 10 ? "0" : "") + s.toStr()
+    secsPrefix = ""
+    if s < 10 then secsPrefix = "0"
+    return mins.toStr() + ":" + secsPrefix + s.toStr()
 end function
 
 ' Mirrors: global keydown listener (Space/OK → play/pause, ◄/► → seek, Esc/Back → navigate)
@@ -1813,7 +1822,8 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
     if key = "play" or key = "pause" or key = "OK"
         ' Mirrors: togglePlayPause()
         if m.videoPlayer <> invalid
-            ctrl = (m.videoPlayer.state = "playing") ? "pause" : "play"
+            ctrl = "play"
+            if m.videoPlayer.state = "playing" then ctrl = "pause"
             m.videoPlayer.control = ctrl
             m.log.info("Toggle play/pause → " + ctrl)
         end if
