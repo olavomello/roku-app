@@ -1,0 +1,41 @@
+{
+  "providerName": "Personal TV",
+  "videos": [
+    {
+      "id": "1",
+      "title": "Big Buck Bunny",
+      "description": "A large and lovable rabbit deals with three mischievous rodents in a peaceful forest landscape. An open-source classic created by the Blender Foundation.",
+      "thumbnail": "https://images.unsplash.com/photo-1574063413132-355dbfd83e0c?q=80&w=800&auto=format&fit=crop",
+      "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4",
+      "duration": 596,
+      "category": "Animation",
+      "releaseDate": "2008",
+      "rating": "G",
+      "artist": "Blender Foundation"
+    },
+    {
+      "id": "2",
+      "title": "Elephant's Dream",
+      "description": "Proog and Emo explore a strange mechanical world inside a giant living clockwork structure in this pioneering open-source 3D animated short film.",
+      "thumbnail": "https://images.unsplash.com/photo-1546182990-dffeafbe841d?q=80&w=800&auto=format&fit=crop",
+      "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4",
+      "duration": 653,
+      "category": "Animation",
+      "releaseDate": "2006",
+      "rating": "PG",
+      "artist": "Orange Open Movie Project"
+    },
+    {
+      "id": "3",
+      "title": "Tears of Steel",
+      "description": "Set in a dystopian future Amsterdam, a group of scientists and soldiers attempt to save the world from an invading horde of rogue robotics.",
+      "thumbnail": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=800&auto=format&fit=crop",
+      "url": "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/TearsOfSteel.mp4",
+      "duration": 734,
+      "category": "Sci-Fi",
+      "releaseDate": "2012",
+      "rating": "PG-13",
+      "artist": "Mango Open Movie Team"
+    }
+  ]
+}

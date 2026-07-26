@@ -1,0 +1,8 @@
+{
+  "name": "Personal TV",
+  "description": "Roku OS SceneGraph application simulator with video catalog, streaming player, Roku remote controls, and Roku Content Feed validator.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}

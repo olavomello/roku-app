@@ -1,6 +1,23 @@
+<<<<<<< HEAD
 title=Roku App
 major_version=0
 minor_version=1
 build_version=0
 mm_icon_focus_hd=pkg:/assets/images/icon_hd.png
 ui_resolutions=fhd
+=======
+# Roku Application Manifest
+title=Personal TV
+major_version=1
+minor_version=0
+build_version=0
+
+# Splash & Channel Icons
+mm_icon_focus_hd=pkg:/assets/images/icon_hd.png
+mm_icon_focus_fhd=pkg:/assets/images/icon_fhd.png
+splash_screen_fhd=pkg:/assets/images/splash_fhd.png
+
+# Display Configurations
+ui_resolutions=fhd
+supports_background_audio=false
+>>>>>>> 98d9cbe (feat: initial commit with SceneGraph structure and Web simulator)

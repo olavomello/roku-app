@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="utf-8"?>
 <component name="MainScene" extends="Scene">
 <script type="text/brightscript" uri="pkg:/components/MainScene.brs"/>
@@ -5,3 +6,19 @@
     <Label id="title" text="Roku App MVP"/>
 </children>
 </component>
+=======
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="MainScene" extends="Scene">
+    <script type="text/brightscript" uri="pkg:/components/MainScene.brs" />
+    <script type="text/brightscript" uri="pkg:/services/FeedService.brs" />
+    <script type="text/brightscript" uri="pkg:/services/FeedParser.brs" />
+    <script type="text/brightscript" uri="pkg:/utils/Logger.brs" />
+    <script type="text/brightscript" uri="pkg:/utils/Constants.brs" />
+
+    <children>
+        <Poster id="background" uri="pkg:/assets/images/bg.png" width="1920" height="1080" />
+        <HomeScene id="homeScene" visible="true" />
+        <PlayerScene id="playerScene" visible="false" />
+    </children>
+</component>
+>>>>>>> 98d9cbe (feat: initial commit with SceneGraph structure and Web simulator)

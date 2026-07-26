@@ -1,0 +1,10 @@
+export const ROKU_CONSTANTS = {
+  APP_TITLE: 'Personal TV',
+  MANIFEST_VERSION: '1.0.0',
+  RESOLUTION: 'Full HD (1080p)',
+  ROKU_PURPLE: '#662D91',
+  ROKU_DARK_BG: '#100c19',
+  DEFAULT_LOCAL_FEED_PATH: 'feeds/sample-feed.json',
+  MAX_COLUMNS: 4,
+  AUTO_HIDE_OSD_MS: 4000,
+};

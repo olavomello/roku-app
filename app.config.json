@@ -1,0 +1,8 @@
+{
+  "appName": "Personal TV",
+  "appSubtitle": "Enjoy your videos",
+  "version": "1.0.0",
+  "devMode": true,
+  "wifiCheckIntervalMs": 120000,
+  "defaultFeedUrl": "/feeds/sample-feed.json"
+}

@@ -1,1 +1,17 @@
+<<<<<<< HEAD
 <!-- TODO Task -->
+=======
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="LoadFeedTask" extends="Task">
+    <script type="text/brightscript" uri="pkg:/tasks/LoadFeedTask.brs" />
+    <script type="text/brightscript" uri="pkg:/services/FeedService.brs" />
+    <script type="text/brightscript" uri="pkg:/services/FeedParser.brs" />
+    <script type="text/brightscript" uri="pkg:/models/VideoModel.brs" />
+    <script type="text/brightscript" uri="pkg:/utils/Logger.brs" />
+
+    <interface>
+        <field id="url" type="string" value="pkg:/feeds/sample-feed.json" />
+        <field id="content" type="node" />
+    </interface>
+</component>
+>>>>>>> 98d9cbe (feat: initial commit with SceneGraph structure and Web simulator)
