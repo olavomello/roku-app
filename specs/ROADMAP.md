@@ -92,7 +92,7 @@ This document tracks all completed and planned specifications for the **Roku TV 
 
 ### SPEC-007: Remote Feed HTTP Fetching, Retry & Cache Management
 - **ID**: `SPEC-007`
-- **Status**: 🟡 `Draft`
+- **Status**: 🟢 `Approved - Production`
 - **Sprint Target**: Sprint 2
 - **Module**: `tasks/LoadFeedTask.xml`, `services/FeedService.brs`
 - **Objective**: Implement asynchronous `roUrlTransfer` task nodes for remote JSON feeds with retry backoff and local cache headers (`if-modified-since`).
