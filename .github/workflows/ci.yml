@@ -30,5 +30,11 @@ jobs:
       - name: Run Unit & E2E Test Suite
         run: npm run test
 
+      - name: Run Official Roku Channel Automated Testing Suite
+        run: npm run test:roku
+
+      - name: Verify Roku Channel Packaging
+        run: npm run package:roku
+
       - name: Verify Web Simulator Build
         run: npm run build
