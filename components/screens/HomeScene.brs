@@ -97,11 +97,13 @@ sub updateSpotlight(itemPos as Object)
 
     ' Rating — mirrors rating badge
     if m.focusedRating <> invalid
-        if video.ratingValue <> invalid and video.ratingValue <> ""
-            m.focusedRating.text = video.ratingValue
-        else
-            m.focusedRating.text = "G"
+        rVal = "G"
+        if video.rating <> invalid and video.rating <> ""
+            rVal = video.rating
+        else if video.ratingValue <> invalid and video.ratingValue <> ""
+            rVal = video.ratingValue
         end if
+        m.focusedRating.text = rVal
     end if
 
     ' Duration — mirrors formatDuration(focusedVideo.duration)
@@ -117,22 +119,41 @@ sub updateSpotlight(itemPos as Object)
 
     ' Category — mirrors category badge
     if m.focusedCategory <> invalid
-        cat = ""
-        if video.categories <> invalid and video.categories <> ""
-            cat = video.categories
-        else
-            cat = "General"
+        cat = "General"
+        if video.categories <> invalid
+            if type(video.categories) = "roArray" and video.categories.count() > 0
+                if video.categories[0] <> invalid and video.categories[0] <> ""
+                    cat = video.categories[0]
+                end if
+            else if type(video.categories) = "roString" or type(video.categories) = "String"
+                if video.categories <> "" then cat = video.categories
+            end if
         end if
         m.focusedCategory.text = cat
     end if
 
     ' Artist / Studio — mirrors artist card (conditionally visible)
-    hasArtist = video.actors <> invalid and video.actors <> ""
-    if m.artistBg <> invalid        then m.artistBg.visible = hasArtist
+    hasArtist = false
+    artistNameStr = ""
+    if video.actors <> invalid
+        if type(video.actors) = "roArray" and video.actors.count() > 0
+            if video.actors[0] <> invalid and video.actors[0] <> ""
+                hasArtist = true
+                artistNameStr = video.actors[0]
+            end if
+        else if type(video.actors) = "roString" or type(video.actors) = "String"
+            if video.actors <> ""
+                hasArtist = true
+                artistNameStr = video.actors
+            end if
+        end if
+    end if
+
+    if m.artistBg <> invalid           then m.artistBg.visible = hasArtist
     if m.artistSectionLabel <> invalid then m.artistSectionLabel.visible = hasArtist
     if m.artistName <> invalid
         m.artistName.visible = hasArtist
-        if hasArtist then m.artistName.text = video.actors
+        if hasArtist then m.artistName.text = artistNameStr
     end if
 end sub
 

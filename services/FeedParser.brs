@@ -188,32 +188,35 @@ function FeedParser_NormalizeItem(item as Object, idx as Integer, fallbacks as O
 
     ' category → categories — mirrors: item.category || Genre.split(",")[0]
     if item.category <> invalid and item.category <> ""
-        node.categories = item.category
+        node.categories = [item.category]
     else if item.Genre <> invalid
         ' Take first genre from comma-separated list
         genres = item.Genre.split(",")
         firstGenre = genres[0]
-        node.categories = firstGenre
+        node.categories = [firstGenre]
     else if item.genre <> invalid
-        node.categories = item.genre
+        node.categories = [item.genre]
     else if item.genres <> invalid and type(item.genres) = "roArray" and item.genres.count() > 0
-        node.categories = item.genres[0].toStr()
+        node.categories = item.genres
     else
-        node.categories = "General"
+        node.categories = ["General"]
     end if
 
     ' rating → ratingValue — mirrors: item.rating || item.Rated
+    ratingVal = "G"
     if item.rating <> invalid and item.rating <> ""
         if type(item.rating) = "roAssociativeArray" and item.rating.rating <> invalid
-            node.ratingValue = item.rating.rating.toStr()
+            ratingVal = item.rating.rating.toStr()
         else
-            node.ratingValue = item.rating.toStr()
+            ratingVal = item.rating.toStr()
         end if
     else if item.Rated <> invalid
-        node.ratingValue = item.Rated.toStr()
-    else
-        node.ratingValue = "G"
+        ratingVal = item.Rated.toStr()
     end if
+
+    node.rating = ratingVal
+    node.addField("ratingValue", "string", false)
+    node.ratingValue = ratingVal
 
     ' releaseDate — mirrors: item.releaseDate || item.Year || item.Released
     if item.releaseDate <> invalid
@@ -226,11 +229,13 @@ function FeedParser_NormalizeItem(item as Object, idx as Integer, fallbacks as O
 
     ' artist → actors — mirrors: item.artist || item.Director || item.Writer
     if item.artist <> invalid and item.artist <> ""
-        node.actors = item.artist
+        node.actors = [item.artist]
     else if item.Director <> invalid and item.Director <> ""
-        node.actors = item.Director
-    else if item.Writer <> invalid
-        node.actors = item.Writer
+        node.actors = [item.Director]
+    else if item.Writer <> invalid and item.Writer <> ""
+        node.actors = [item.Writer]
+    else
+        node.actors = []
     end if
 
     return node

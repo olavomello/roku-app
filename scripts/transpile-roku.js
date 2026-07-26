@@ -444,32 +444,35 @@ function FeedParser_NormalizeItem(item as Object, idx as Integer, fallbacks as O
 
     ' category → categories — mirrors: item.category || Genre.split(",")[0]
     if item.category <> invalid and item.category <> ""
-        node.categories = item.category
+        node.categories = [item.category]
     else if item.Genre <> invalid
         ' Take first genre from comma-separated list
         genres = item.Genre.split(",")
         firstGenre = genres[0]
-        node.categories = firstGenre
+        node.categories = [firstGenre]
     else if item.genre <> invalid
-        node.categories = item.genre
+        node.categories = [item.genre]
     else if item.genres <> invalid and type(item.genres) = "roArray" and item.genres.count() > 0
-        node.categories = item.genres[0].toStr()
+        node.categories = item.genres
     else
-        node.categories = "General"
+        node.categories = ["General"]
     end if
 
     ' rating → ratingValue — mirrors: item.rating || item.Rated
+    ratingVal = "G"
     if item.rating <> invalid and item.rating <> ""
         if type(item.rating) = "roAssociativeArray" and item.rating.rating <> invalid
-            node.ratingValue = item.rating.rating.toStr()
+            ratingVal = item.rating.rating.toStr()
         else
-            node.ratingValue = item.rating.toStr()
+            ratingVal = item.rating.toStr()
         end if
     else if item.Rated <> invalid
-        node.ratingValue = item.Rated.toStr()
-    else
-        node.ratingValue = "G"
+        ratingVal = item.Rated.toStr()
     end if
+
+    node.rating = ratingVal
+    node.addField("ratingValue", "string", false)
+    node.ratingValue = ratingVal
 
     ' releaseDate — mirrors: item.releaseDate || item.Year || item.Released
     if item.releaseDate <> invalid
@@ -482,11 +485,13 @@ function FeedParser_NormalizeItem(item as Object, idx as Integer, fallbacks as O
 
     ' artist → actors — mirrors: item.artist || item.Director || item.Writer
     if item.artist <> invalid and item.artist <> ""
-        node.actors = item.artist
+        node.actors = [item.artist]
     else if item.Director <> invalid and item.Director <> ""
-        node.actors = item.Director
-    else if item.Writer <> invalid
-        node.actors = item.Writer
+        node.actors = [item.Director]
+    else if item.Writer <> invalid and item.Writer <> ""
+        node.actors = [item.Writer]
+    else
+        node.actors = []
     end if
 
     return node
@@ -780,16 +785,26 @@ sub onItemContentChanged()
     end if
 
     ' categories — mirrors <span>{video.category}</span>
-    if item.categories <> invalid and item.categories <> ""
-        m.category.text = item.categories
-    else
-        m.category.text = "General"
+    cat = "General"
+    if item.categories <> invalid
+        if type(item.categories) = "roArray" and item.categories.count() > 0
+            if item.categories[0] <> invalid and item.categories[0] <> ""
+                cat = item.categories[0]
+            end if
+        else if type(item.categories) = "roString" or type(item.categories) = "String"
+            if item.categories <> "" then cat = item.categories
+        end if
     end if
+    m.category.text = cat
 
-    ' ratingValue — mirrors rating badge
-    if item.ratingValue <> invalid and item.ratingValue <> ""
-        m.rating.text = item.ratingValue
+    ' ratingValue / rating — mirrors rating badge
+    rVal = "G"
+    if item.rating <> invalid and item.rating <> ""
+        rVal = item.rating
+    else if item.ratingValue <> invalid and item.ratingValue <> ""
+        rVal = item.ratingValue
     end if
+    m.rating.text = rVal
 end sub
 
 ' Mirrors: isFocused CSS classes — border-[#9e46ea] ring-4 scale-[1.02] when focused
@@ -1362,11 +1377,13 @@ sub updateSpotlight(itemPos as Object)
 
     ' Rating — mirrors rating badge
     if m.focusedRating <> invalid
-        if video.ratingValue <> invalid and video.ratingValue <> ""
-            m.focusedRating.text = video.ratingValue
-        else
-            m.focusedRating.text = "G"
+        rVal = "G"
+        if video.rating <> invalid and video.rating <> ""
+            rVal = video.rating
+        else if video.ratingValue <> invalid and video.ratingValue <> ""
+            rVal = video.ratingValue
         end if
+        m.focusedRating.text = rVal
     end if
 
     ' Duration — mirrors formatDuration(focusedVideo.duration)
@@ -1382,22 +1399,41 @@ sub updateSpotlight(itemPos as Object)
 
     ' Category — mirrors category badge
     if m.focusedCategory <> invalid
-        cat = ""
-        if video.categories <> invalid and video.categories <> ""
-            cat = video.categories
-        else
-            cat = "General"
+        cat = "General"
+        if video.categories <> invalid
+            if type(video.categories) = "roArray" and video.categories.count() > 0
+                if video.categories[0] <> invalid and video.categories[0] <> ""
+                    cat = video.categories[0]
+                end if
+            else if type(video.categories) = "roString" or type(video.categories) = "String"
+                if video.categories <> "" then cat = video.categories
+            end if
         end if
         m.focusedCategory.text = cat
     end if
 
     ' Artist / Studio — mirrors artist card (conditionally visible)
-    hasArtist = video.actors <> invalid and video.actors <> ""
-    if m.artistBg <> invalid        then m.artistBg.visible = hasArtist
+    hasArtist = false
+    artistNameStr = ""
+    if video.actors <> invalid
+        if type(video.actors) = "roArray" and video.actors.count() > 0
+            if video.actors[0] <> invalid and video.actors[0] <> ""
+                hasArtist = true
+                artistNameStr = video.actors[0]
+            end if
+        else if type(video.actors) = "roString" or type(video.actors) = "String"
+            if video.actors <> ""
+                hasArtist = true
+                artistNameStr = video.actors
+            end if
+        end if
+    end if
+
+    if m.artistBg <> invalid           then m.artistBg.visible = hasArtist
     if m.artistSectionLabel <> invalid then m.artistSectionLabel.visible = hasArtist
     if m.artistName <> invalid
         m.artistName.visible = hasArtist
-        if hasArtist then m.artistName.text = video.actors
+        if hasArtist then m.artistName.text = artistNameStr
     end if
 end sub
 

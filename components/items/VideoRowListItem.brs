@@ -29,16 +29,26 @@ sub onItemContentChanged()
     end if
 
     ' categories — mirrors <span>{video.category}</span>
-    if item.categories <> invalid and item.categories <> ""
-        m.category.text = item.categories
-    else
-        m.category.text = "General"
+    cat = "General"
+    if item.categories <> invalid
+        if type(item.categories) = "roArray" and item.categories.count() > 0
+            if item.categories[0] <> invalid and item.categories[0] <> ""
+                cat = item.categories[0]
+            end if
+        else if type(item.categories) = "roString" or type(item.categories) = "String"
+            if item.categories <> "" then cat = item.categories
+        end if
     end if
+    m.category.text = cat
 
-    ' ratingValue — mirrors rating badge
-    if item.ratingValue <> invalid and item.ratingValue <> ""
-        m.rating.text = item.ratingValue
+    ' ratingValue / rating — mirrors rating badge
+    rVal = "G"
+    if item.rating <> invalid and item.rating <> ""
+        rVal = item.rating
+    else if item.ratingValue <> invalid and item.ratingValue <> ""
+        rVal = item.ratingValue
     end if
+    m.rating.text = rVal
 end sub
 
 ' Mirrors: isFocused CSS classes — border-[#9e46ea] ring-4 scale-[1.02] when focused
