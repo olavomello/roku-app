@@ -1,6 +1,7 @@
 import rokuDeploy from 'roku-deploy';
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 
 function loadEnv() {
   const envPath = path.join(process.cwd(), '.env');
@@ -110,6 +111,8 @@ export async function deployToRoku(ipArg, passArg) {
   }
 }
 
-if (process.argv[1] === new URL(import.meta.url).pathname) {
+const isMainModule = process.argv[1] && path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url));
+
+if (isMainModule) {
   deployToRoku();
 }

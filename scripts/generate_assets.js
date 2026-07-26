@@ -1,6 +1,7 @@
 import fs from 'fs';
 import path from 'path';
 import zlib from 'zlib';
+import { fileURLToPath } from 'url';
 
 /**
  * Creates a raw valid PNG Buffer for a given width, height, and solid RGB color.
@@ -80,6 +81,8 @@ export function generateRokuAssets() {
   }
 }
 
-if (process.argv[1] === new URL(import.meta.url).pathname) {
+const isMainModule = process.argv[1] && path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url));
+
+if (isMainModule) {
   generateRokuAssets();
 }

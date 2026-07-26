@@ -1,6 +1,7 @@
 import rokuDeploy from 'roku-deploy';
 import fs from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import { generateRokuAssets } from './generate_assets.js';
 
 function loadEnv() {
@@ -74,6 +75,8 @@ export async function packageRoku() {
   }
 }
 
-if (process.argv[1] === new URL(import.meta.url).pathname) {
+const isMainModule = process.argv[1] && path.resolve(process.argv[1]) === path.resolve(fileURLToPath(import.meta.url));
+
+if (isMainModule) {
   packageRoku();
 }
