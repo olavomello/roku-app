@@ -158,7 +158,7 @@ def deploy_to_roku():
         
         handlers = [auth_handler]
         if is_debug:
-            handlers.append(urllib.request.HTTPDebugHandler(1))
+            handlers.append(urllib.request.HTTPHandler(debuglevel=1))
 
         opener = urllib.request.build_opener(*handlers)
 
