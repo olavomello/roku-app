@@ -680,10 +680,15 @@ function generateVideoRowListItem() {
     </interface>
 
     <children>
+        <!-- Poster background card — prevents white box while image loads -->
+        <Rectangle id="posterBg"
+                   width="300" height="180"
+                   color="0x1A122BFF" />
+
         <!-- Poster image — mirrors <img src={video.thumbnail} className="aspect-video"> -->
         <Poster id="poster"
                 width="300" height="180"
-                loadDisplayMode="scaleToFit" />
+                loadDisplayMode="scaleToZoom" />
 
         <!-- Focus border ring — mirrors border-[#9e46ea] ring-4 ring-purple-500/30 when isFocused -->
         <Rectangle id="focusBorder"
@@ -719,7 +724,7 @@ function generateVideoRowListItem() {
 
         <!-- Title label — mirrors <h3 className="font-semibold text-xs line-clamp-1"> -->
         <Label id="title"
-               width="284" height="28"
+               width="284" height="26"
                translation="[8, 184]"
                font="font:SmallBoldSystemFont"
                color="0xE5E7EBFF"
@@ -729,23 +734,23 @@ function generateVideoRowListItem() {
 
         <!-- Category label — mirrors <span>{video.category}</span> -->
         <Label id="category"
-               width="155" height="18"
-               translation="[8, 212]"
+               width="210" height="18"
+               translation="[8, 208]"
                font="font:SmallSystemFont"
                color="0x9CA3AFFF"
                horizAlign="left" />
 
         <!-- Rating badge bg — mirrors rating pill bg-purple-950/60 -->
         <Rectangle id="ratingBg"
-                   width="36" height="18"
-                   translation="[258, 212]"
+                   width="42" height="18"
+                   translation="[250, 208]"
                    color="0x2E106580"
                    blendingEnabled="true" />
 
         <!-- Rating badge label — mirrors text-purple-300 font-bold text-[10px] -->
         <Label id="rating"
-               width="36" height="18"
-               translation="[258, 212]"
+               width="42" height="18"
+               translation="[250, 208]"
                font="font:SmallSystemFont"
                color="0xC4B5FDFF"
                horizAlign="center"
@@ -1088,13 +1093,14 @@ end function
 function generateHomeScene(colors) {
   const purple     = hexToRoku('662D91');
   const purpleGlow = hexToRoku('9E46EA');
+  const bgDark     = hexToRoku('0B0813');
   const textWhite  = hexToRoku('FFFFFF');
   const textGray2  = hexToRoku('E5E7EB');
   const textGray4  = hexToRoku('9CA3AF');
   const textGray3  = hexToRoku('D1D5DB');
   const textPurp2  = hexToRoku('DDD6FE');
   const textPurp3  = hexToRoku('C4B5FD');
-  const panelBg    = hexToRoku('150F22', '90');
+  const panelBg    = hexToRoku('150F22', 'F5');
   const darkCard   = hexToRoku('1C152D');
 
   writeOut('components/screens/HomeScene.xml', `<?xml version="1.0" encoding="utf-8" ?>
@@ -1113,6 +1119,11 @@ function generateHomeScene(colors) {
     </interface>
 
     <children>
+        <!-- Full-screen dark canvas — ensures no default light blue theme shows through -->
+        <Rectangle id="homeCanvasBg"
+                   width="1920" height="1080"
+                   color="${bgDark}" />
+
         <!-- ══════════════════════════════════════════════════════
              LEFT SECTION (0–1270px)
              Mirrors: lg:col-span-8 in HomeScene.tsx
@@ -1121,21 +1132,21 @@ function generateHomeScene(colors) {
         <!-- "Channel Catalog" heading — mirrors <h2>Channel Catalog</h2> -->
         <Label id="titleLabel"
                text="Channel Catalog"
-               translation="[80, 45]"
-               width="420" height="50"
+               translation="[80, 42]"
+               width="320" height="40"
                font="font:LargeBoldSystemFont"
                color="${textGray2}" />
 
         <!-- "{N} Titles" badge — mirrors text-purple-400 bg-purple-950/60 badge -->
         <Rectangle id="countBadgeBg"
-                   translation="[82, 100]"
-                   width="100" height="26"
-                   color="0x4C1D9550"
+                   translation="[350, 46]"
+                   width="120" height="28"
+                   color="0x4C1D9580"
                    blendingEnabled="true" />
         <Label id="countBadge"
                text="0 Titles"
-               translation="[82, 102]"
-               width="100" height="22"
+               translation="[350, 49]"
+               width="120" height="22"
                font="font:SmallBoldSystemFont"
                color="${textPurp3}"
                horizAlign="center" />
@@ -1145,7 +1156,7 @@ function generateHomeScene(colors) {
         <!-- rowItemSize [300,230] = poster(300×180) + info bar(300×50)       -->
         <RowList
             id="rowList"
-            translation="[80, 135]"
+            translation="[80, 105]"
             itemSize="[1180, 240]"
             numRows="3"
             rowItemSize="[[300, 230]]"

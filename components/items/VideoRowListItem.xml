@@ -13,10 +13,15 @@
     </interface>
 
     <children>
+        <!-- Poster background card — prevents white box while image loads -->
+        <Rectangle id="posterBg"
+                   width="300" height="180"
+                   color="0x1A122BFF" />
+
         <!-- Poster image — mirrors <img src={video.thumbnail} className="aspect-video"> -->
         <Poster id="poster"
                 width="300" height="180"
-                loadDisplayMode="scaleToFit" />
+                loadDisplayMode="scaleToZoom" />
 
         <!-- Focus border ring — mirrors border-[#9e46ea] ring-4 ring-purple-500/30 when isFocused -->
         <Rectangle id="focusBorder"
@@ -52,7 +57,7 @@
 
         <!-- Title label — mirrors <h3 className="font-semibold text-xs line-clamp-1"> -->
         <Label id="title"
-               width="284" height="28"
+               width="284" height="26"
                translation="[8, 184]"
                font="font:SmallBoldSystemFont"
                color="0xE5E7EBFF"
@@ -62,23 +67,23 @@
 
         <!-- Category label — mirrors <span>{video.category}</span> -->
         <Label id="category"
-               width="155" height="18"
-               translation="[8, 212]"
+               width="210" height="18"
+               translation="[8, 208]"
                font="font:SmallSystemFont"
                color="0x9CA3AFFF"
                horizAlign="left" />
 
         <!-- Rating badge bg — mirrors rating pill bg-purple-950/60 -->
         <Rectangle id="ratingBg"
-                   width="36" height="18"
-                   translation="[258, 212]"
+                   width="42" height="18"
+                   translation="[250, 208]"
                    color="0x2E106580"
                    blendingEnabled="true" />
 
         <!-- Rating badge label — mirrors text-purple-300 font-bold text-[10px] -->
         <Label id="rating"
-               width="36" height="18"
-               translation="[258, 212]"
+               width="42" height="18"
+               translation="[250, 208]"
                font="font:SmallSystemFont"
                color="0xC4B5FDFF"
                horizAlign="center"

@@ -14,6 +14,11 @@
     </interface>
 
     <children>
+        <!-- Full-screen dark canvas — ensures no default light blue theme shows through -->
+        <Rectangle id="homeCanvasBg"
+                   width="1920" height="1080"
+                   color="0x0B0813FF" />
+
         <!-- ══════════════════════════════════════════════════════
              LEFT SECTION (0–1270px)
              Mirrors: lg:col-span-8 in HomeScene.tsx
@@ -22,21 +27,21 @@
         <!-- "Channel Catalog" heading — mirrors <h2>Channel Catalog</h2> -->
         <Label id="titleLabel"
                text="Channel Catalog"
-               translation="[80, 45]"
-               width="420" height="50"
+               translation="[80, 42]"
+               width="320" height="40"
                font="font:LargeBoldSystemFont"
                color="0xE5E7EBFF" />
 
         <!-- "{N} Titles" badge — mirrors text-purple-400 bg-purple-950/60 badge -->
         <Rectangle id="countBadgeBg"
-                   translation="[82, 100]"
-                   width="100" height="26"
-                   color="0x4C1D9550"
+                   translation="[350, 46]"
+                   width="120" height="28"
+                   color="0x4C1D9580"
                    blendingEnabled="true" />
         <Label id="countBadge"
                text="0 Titles"
-               translation="[82, 102]"
-               width="100" height="22"
+               translation="[350, 49]"
+               width="120" height="22"
                font="font:SmallBoldSystemFont"
                color="0xC4B5FDFF"
                horizAlign="center" />
@@ -46,7 +51,7 @@
         <!-- rowItemSize [300,230] = poster(300×180) + info bar(300×50)       -->
         <RowList
             id="rowList"
-            translation="[80, 135]"
+            translation="[80, 105]"
             itemSize="[1180, 240]"
             numRows="3"
             rowItemSize="[[300, 230]]"
@@ -64,7 +69,7 @@
         <Rectangle id="infoPanelBg"
                    translation="[1300, 35]"
                    width="548" height="1010"
-                   color="0x150F2290"
+                   color="0x150F22F5"
                    blendingEnabled="true" />
 
         <!-- "Roku Focused Item" badge — mirrors <span><Sparkles/>Roku Focused Item</span> -->

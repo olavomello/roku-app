@@ -10,15 +10,18 @@ export function createRokuAssetPng(width, height, isIcon = true) {
   const rowLength = 1 + width * 3;
   const rawData = Buffer.alloc(rowLength * height);
 
-  const bgR = 15, bgG = 23, bgB = 42; // #0F172A (Dark Navy)
-  const accentR = 225, accentG = 29, accentB = 72; // #E11D48 (Crimson Red)
+  // Roku Purple Theme Colors matching the Web App UI (#120d1c, #662D91, #a341e8, #1e172e)
+  const bgR = 18, bgG = 13, bgB = 28; // #120D1C (Deep Dark Purple Canvas)
+  const innerBgR = 30, innerBgG = 23, innerBgB = 46; // #1E172E (Card Fill)
+  const purpleR = 102, purpleG = 45, purpleB = 145; // #662D91 (Roku Purple)
+  const highlightR = 163, highlightG = 65, highlightB = 232; // #A341E8 (Bright Purple Accent)
   const whiteR = 255, whiteG = 255, whiteB = 255;
-  const cardR = 30, cardG = 41, cardB = 59; // #1E293B
+  const goldR = 245, goldG = 158, goldB = 11; // #F59E0B (Accent Gold)
 
   const cx = Math.floor(width / 2);
   const cy = Math.floor(height / 2);
   const playSize = Math.floor(Math.min(width, height) * 0.22);
-  const circleRadius = Math.floor(Math.min(width, height) * 0.32);
+  const circleRadius = Math.floor(Math.min(width, height) * 0.34);
 
   for (let y = 0; y < height; y++) {
     const rowOffset = y * rowLength;
@@ -27,29 +30,38 @@ export function createRokuAssetPng(width, height, isIcon = true) {
     for (let x = 0; x < width; x++) {
       const pxOffset = rowOffset + 1 + x * 3;
 
-      let r = bgR, g = bgG, b = bgB;
+      // Subtle vertical radial gradient from deep purple center to darker edges
+      const distFromCenter = Math.sqrt(Math.pow(x - cx, 2) + Math.pow(y - cy, 2));
+      const maxDist = Math.sqrt(cx * cx + cy * cy);
+      const gradientFactor = Math.max(0, 1 - distFromCenter / maxDist);
 
-      // Top and bottom accent border bars
-      if (y < Math.max(3, Math.floor(height * 0.04)) || y > height - Math.max(3, Math.floor(height * 0.04))) {
-        r = accentR; g = accentG; b = accentB;
+      let r = Math.floor(bgR + gradientFactor * 15);
+      let g = Math.floor(bgG + gradientFactor * 10);
+      let b = Math.floor(bgB + gradientFactor * 25);
+
+      // Top and bottom accent border bars (Bright Roku Purple)
+      const barHeight = Math.max(4, Math.floor(height * 0.035));
+      if (y < barHeight || y > height - barHeight) {
+        r = highlightR; g = highlightG; b = highlightB;
       } else {
         const dx = x - cx;
         const dy = y - cy;
         const distSq = dx * dx + dy * dy;
 
-        // Draw Outer Circle Emblem
+        // Draw Outer Glowing Circle Emblem
         if (distSq <= circleRadius * circleRadius) {
-          const ringThickness = Math.max(4, Math.floor(circleRadius * 0.12));
+          const ringThickness = Math.max(5, Math.floor(circleRadius * 0.14));
           if (distSq >= (circleRadius - ringThickness) * (circleRadius - ringThickness)) {
-            r = accentR; g = accentG; b = accentB;
+            // Gradient ring from highlight purple to gold accent
+            r = highlightR; g = highlightG; b = highlightB;
           } else {
-            r = cardR; g = cardG; b = cardB;
+            r = innerBgR; g = innerBgG; b = innerBgB;
           }
         }
 
         // Draw Play Triangle (pointing right)
-        const xMin = cx - Math.floor(playSize * 0.5);
-        const xMax = cx + Math.floor(playSize * 0.8);
+        const xMin = cx - Math.floor(playSize * 0.45);
+        const xMax = cx + Math.floor(playSize * 0.75);
         if (x >= xMin && x <= xMax) {
           const halfH = Math.floor(((xMax - x) / (xMax - xMin)) * playSize);
           if (y >= cy - halfH && y <= cy + halfH) {
