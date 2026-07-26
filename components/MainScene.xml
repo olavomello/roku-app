@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8" ?>
 <component name="MainScene" extends="Scene" backgroundColor="0x0F172AFF" backgroundUri="">
-    <script type="type/brightscript" uri="pkg:/components/MainScene.brs" />
-    <script type="type/brightscript" uri="pkg:/services/FeedService.brs" />
-    <script type="type/brightscript" uri="pkg:/services/FeedParser.brs" />
-    <script type="type/brightscript" uri="pkg:/utils/Logger.brs" />
-    <script type="type/brightscript" uri="pkg:/utils/Constants.brs" />
+    <script type="text/brightscript" uri="pkg:/components/MainScene.brs" />
+    <script type="text/brightscript" uri="pkg:/services/FeedService.brs" />
+    <script type="text/brightscript" uri="pkg:/services/FeedParser.brs" />
+    <script type="text/brightscript" uri="pkg:/utils/Logger.brs" />
+    <script type="text/brightscript" uri="pkg:/utils/Constants.brs" />
 
     <children>
         <Rectangle id="background" width="1920" height="1080" color="0x0F172AFF" />

@@ -9,16 +9,14 @@ sub init()
     m.homeScene = m.top.findNode("homeScene")
     m.playerScene = m.top.findNode("playerScene")
 
-    ' Set initial focus to HomeScene immediately
     if m.homeScene <> invalid
+        m.homeScene.observeField("selectedVideo", "onVideoSelected")
         m.homeScene.setFocus(true)
     end if
 
-    ' Observe events from HomeScene
-    m.homeScene.observeField("selectedVideo", "onVideoSelected")
-
-    ' Observe events from PlayerScene
-    m.playerScene.observeField("state", "onPlayerStateChanged")
+    if m.playerScene <> invalid
+        m.playerScene.observeField("state", "onPlayerStateChanged")
+    end if
 
     ' Start loading content feed
     loadContentFeed()
@@ -27,8 +25,12 @@ end sub
 sub loadContentFeed()
     m.log.info("Starting LoadFeedTask Node")
     m.feedTask = CreateObject("roSGNode", "LoadFeedTask")
-    m.feedTask.observeField("content", "onFeedLoaded")
-    m.feedTask.control = "RUN"
+    if m.feedTask <> invalid
+        m.feedTask.observeField("content", "onFeedLoaded")
+        m.feedTask.control = "RUN"
+    else
+        m.log.error("Failed to create LoadFeedTask node")
+    end if
 end sub
 
 sub onFeedLoaded()
@@ -61,7 +63,7 @@ end sub
 function onKeyEvent(key as String, press as Boolean) as Boolean
     if press
         if key = "back"
-            if m.playerScene.visible
+            if m.playerScene <> invalid and m.playerScene.visible
                 m.log.info("Back pressed in PlayerScene. Returning to HomeScene.")
                 m.playerScene.control = "stop"
                 m.playerScene.visible = false

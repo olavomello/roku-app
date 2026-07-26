@@ -7,6 +7,8 @@ build_version=0
 # Splash & Channel Icons
 mm_icon_focus_hd=pkg:/assets/images/icon_hd.png
 mm_icon_focus_fhd=pkg:/assets/images/icon_fhd.png
+mm_icon_side_hd=pkg:/assets/images/icon_hd.png
+mm_icon_side_fhd=pkg:/assets/images/icon_fhd.png
 splash_screen_hd=pkg:/assets/images/splash_hd.png
 splash_screen_fhd=pkg:/assets/images/splash_fhd.png
 splash_color=#0F172A

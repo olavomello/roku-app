@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<component name="VideoRowListItem" extends="Group">
+    <script type="text/brightscript" uri="pkg:/components/items/VideoRowListItem.brs" />
+
+    <interface>
+        <field id="itemContent" type="node" onChange="onItemContentChanged" />
+        <field id="focusPercent" type="float" onChange="onFocusPercentChanged" />
+    </interface>
+
+    <children>
+        <Poster id="poster" width="300" height="180" loadDisplayMode="scaleToFit" />
+        <Rectangle id="focusBorder" width="304" height="184" translation="[-2, -2]" color="0xE11D48FF" visible="false" />
+        <Rectangle id="titleBg" width="300" height="40" translation="[0, 140]" color="0x000000CC" />
+        <Label id="title" width="290" height="36" translation="[5, 142]" font="font:SmallBoldSystemFont" color="0xFFFFFFFF" horizAlign="center" vertAlign="center" />
+    </children>
+</component>
