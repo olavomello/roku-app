@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-<!-- TODO: PlayerScene -->
-=======
 <?xml version="1.0" encoding="utf-8" ?>
 <component name="PlayerScene" extends="Group">
     <script type="text/brightscript" uri="pkg:/screens/PlayerScene.brs" />
@@ -15,4 +12,3 @@
         <Video id="videoPlayer" width="1920" height="1080" />
     </children>
 </component>
->>>>>>> 98d9cbe (feat: initial commit with SceneGraph structure and Web simulator)

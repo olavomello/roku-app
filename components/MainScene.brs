@@ -1,8 +1,3 @@
-<<<<<<< HEAD
-sub init()
-    m.top.backgroundURI=""
-end sub
-=======
 ' Objective: Root Manager Scene for Navigation and Feed initialization
 ' Responsibilities: Manage screen transitions between HomeScene and PlayerScene
 ' Event Handlers: itemSelected on HomeScene, back key press on PlayerScene
@@ -67,4 +62,3 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
     end if
     return false
 end function
->>>>>>> 98d9cbe (feat: initial commit with SceneGraph structure and Web simulator)

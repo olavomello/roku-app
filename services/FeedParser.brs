@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-' TODO FeedParser
-=======
 ' Objective: Parse raw JSON feed into SceneGraph ContentNodes
 ' Responsibilities: Convert JSON arrays/objects into ContentNode row and item trees
 
@@ -52,4 +49,3 @@ function FeedParser_Parse(jsonString as String) as Object
 
     return rootNode
 end function
->>>>>>> 98d9cbe (feat: initial commit with SceneGraph structure and Web simulator)

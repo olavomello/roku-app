@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-' TODO Task
-=======
 ' Objective: Asynchronous HTTP Network Task Node
 ' Responsibilities: Fetch feed JSON payload off the render thread and parse into ContentNodes
 
@@ -33,4 +30,3 @@ sub executeTask()
         m.top.content = invalid
     end if
 end sub
->>>>>>> 98d9cbe (feat: initial commit with SceneGraph structure and Web simulator)

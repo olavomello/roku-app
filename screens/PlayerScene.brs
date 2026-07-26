@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-' TODO
-=======
 ' Objective: Video playback component wrapper for native SceneGraph Video Node
 ' Responsibilities: Auto-play selected video content and handle playback control
 
@@ -15,4 +12,3 @@ sub onContentChanged()
         m.videoPlayer.setFocus(true)
     end if
 end sub
->>>>>>> 98d9cbe (feat: initial commit with SceneGraph structure and Web simulator)

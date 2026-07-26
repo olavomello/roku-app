@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-' TODO Logger
-=======
 ' Objective: Centralized Logger Utility for Roku SceneGraph
 ' Responsibilities: Print formatted logs to stdout console
 
@@ -18,4 +15,3 @@ function Logger(moduleName as String) as Object
         end sub
     }
 end function
->>>>>>> 98d9cbe (feat: initial commit with SceneGraph structure and Web simulator)

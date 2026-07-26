@@ -1,6 +1,3 @@
-<<<<<<< HEAD
-' TODO
-=======
 ' Objective: Display video list items using RowList component
 ' Responsibilities: Manage focus and item selection event output
 ' Dependencies: VideoModel
@@ -27,4 +24,3 @@ sub onItemSelected()
         end if
     end if
 end sub
->>>>>>> 98d9cbe (feat: initial commit with SceneGraph structure and Web simulator)
