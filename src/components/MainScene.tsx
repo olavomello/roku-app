@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback } from 'react';
 import { Video, FeedData, SceneType, PlaybackState } from '../types';
 import { FeedService } from '../services/feedService';
 import { HomeScene } from './HomeScene';
+import { RokuOSLayout } from './RokuOSLayout';
 import { PlayerScene } from './PlayerScene';
 import { FeedInspector } from './FeedInspector';
 import { ErrorScreen } from './ErrorScreen';
@@ -17,6 +18,7 @@ export const MainScene: React.FC = () => {
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [focusedIndex, setFocusedIndex] = useState<number>(0);
   const [selectedVideo, setSelectedVideo] = useState<Video | null>(null);
+  const [layoutMode, setLayoutMode] = useState<'web' | 'roku'>('web');
   const [isRemoteOpen, setIsRemoteOpen] = useState<boolean>(true);
   const [isInspectorOpen, setIsInspectorOpen] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
@@ -188,6 +190,8 @@ export const MainScene: React.FC = () => {
         onToggleInspector={() => setIsInspectorOpen((prev) => !prev)}
         isRemoteOpen={isRemoteOpen}
         channelTitle={feedData?.providerName || config.appName}
+        layoutMode={layoutMode}
+        onToggleLayoutMode={() => setLayoutMode((prev) => (prev === 'web' ? 'roku' : 'web'))}
       />
 
       {/* Scene Body */}
@@ -208,19 +212,35 @@ export const MainScene: React.FC = () => {
             }}
           />
         ) : currentScene === 'HOME' ? (
-          <HomeScene
-            videos={filteredVideos}
-            categories={feedData?.categories || ['All']}
-            selectedCategory={selectedCategory}
-            onSelectCategory={(cat) => {
-              setSelectedCategory(cat);
-              setFocusedIndex(0);
-            }}
-            focusedIndex={focusedIndex}
-            setFocusedIndex={setFocusedIndex}
-            onSelectVideo={handleSelectVideo}
-            playbackHistory={playbackHistory}
-          />
+          layoutMode === 'roku' ? (
+            <RokuOSLayout
+              videos={filteredVideos}
+              categories={feedData?.categories || ['All']}
+              selectedCategory={selectedCategory}
+              onSelectCategory={(cat) => {
+                setSelectedCategory(cat);
+                setFocusedIndex(0);
+              }}
+              focusedIndex={focusedIndex}
+              setFocusedIndex={setFocusedIndex}
+              onSelectVideo={handleSelectVideo}
+              playbackHistory={playbackHistory}
+            />
+          ) : (
+            <HomeScene
+              videos={filteredVideos}
+              categories={feedData?.categories || ['All']}
+              selectedCategory={selectedCategory}
+              onSelectCategory={(cat) => {
+                setSelectedCategory(cat);
+                setFocusedIndex(0);
+              }}
+              focusedIndex={focusedIndex}
+              setFocusedIndex={setFocusedIndex}
+              onSelectVideo={handleSelectVideo}
+              playbackHistory={playbackHistory}
+            />
+          )
         ) : currentScene === 'PLAYER' && selectedVideo ? (
           <PlayerScene
             video={selectedVideo}

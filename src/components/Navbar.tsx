@@ -10,6 +10,8 @@ interface NavbarProps {
   onToggleInspector: () => void;
   isRemoteOpen: boolean;
   channelTitle?: string;
+  layoutMode?: 'web' | 'roku';
+  onToggleLayoutMode?: () => void;
 }
 
 export const Navbar: React.FC<NavbarProps> = ({
@@ -18,7 +20,9 @@ export const Navbar: React.FC<NavbarProps> = ({
   onToggleRemote,
   onToggleInspector,
   isRemoteOpen,
-  channelTitle = config.appName
+  channelTitle = config.appName,
+  layoutMode = 'web',
+  onToggleLayoutMode
 }) => {
   const [time, setTime] = useState<string>('');
   const [isOnline, setIsOnline] = useState<boolean>(() => typeof navigator !== 'undefined' ? navigator.onLine : true);
@@ -103,6 +107,22 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Right Controls & HUD */}
       <div className="flex items-center gap-3">
+        {/* Layout Mode Switcher (Web/App View vs Roku TV Playlet Layout) */}
+        {onToggleLayoutMode && (
+          <button
+            onClick={onToggleLayoutMode}
+            className={`px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-2 transition border ${
+              layoutMode === 'roku'
+                ? 'bg-[#662D91] text-white border-purple-400 shadow-lg shadow-purple-900/60'
+                : 'bg-[#1e172e] text-purple-200 border-purple-900/40 hover:bg-[#2e2345]'
+            }`}
+            title="Toggle between Web/App Layout and Native Roku TV Playlet Layout"
+          >
+            <Tv className="w-3.5 h-3.5 text-purple-300" />
+            <span>{layoutMode === 'roku' ? '📺 Roku TV Layout' : '💻 Web/App Layout'}</span>
+          </button>
+        )}
+
         {/* Direct Download button for physical Roku TV installation (DEV mode only) */}
         {import.meta.env.DEV && (
           <a
