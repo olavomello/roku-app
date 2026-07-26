@@ -3,10 +3,20 @@ import os
 import zipfile
 import sys
 
+# Add scripts directory to sys.path
+scripts_dir = os.path.dirname(os.path.abspath(__file__))
+if scripts_dir not in sys.path:
+    sys.path.insert(0, scripts_dir)
+
+from generate_assets import generate_roku_assets
+
 def package_roku():
     output_filename = "roku-channel.zip"
     public_output = os.path.join("public", "roku-channel.zip")
     
+    # Generate missing icon/splash assets if needed
+    generate_roku_assets()
+
     entries_to_include = [
         "manifest",
         "source",
@@ -22,16 +32,22 @@ def package_roku():
 
     print("📦 Packaging Roku SceneGraph Channel into roku-channel.zip...")
     
-    with zipfile.ZipFile(output_filename, 'w', zipfile.ZIP_DEFLATED) as zipf:
+    # Roku OS strict unzip compatibility: allowZip64=False to prevent ZIP64 headers
+    with zipfile.ZipFile(output_filename, 'w', zipfile.ZIP_DEFLATED, allowZip64=False) as zipf:
         for entry in entries_to_include:
+            if not os.path.exists(entry):
+                continue
             if os.path.isfile(entry):
-                zipf.write(entry, entry)
-                print(f"  + Added file: {entry}")
+                arcname = entry.replace('\\', '/')
+                zipf.write(entry, arcname)
+                print(f"  + Added file: {arcname}")
             elif os.path.isdir(entry):
                 for root, dirs, files in os.walk(entry):
                     for file in files:
+                        if file.startswith('.') or file.endswith('.pyc'):
+                            continue
                         filepath = os.path.join(root, file)
-                        arcname = os.path.relpath(filepath, ".")
+                        arcname = os.path.relpath(filepath, ".").replace('\\', '/')
                         zipf.write(filepath, arcname)
                         print(f"  + Added file: {arcname}")
 
