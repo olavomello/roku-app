@@ -175,6 +175,9 @@ npm run deploy-node
 # Ou passar IP e Senha diretamente como argumentos:
 npm run deploy-node 10.0.0.171 sobeoapp
 
+# Ativar depurador de deploy (gera logs detalhados de cada etapa):
+npm run deploy-node -- --debug
+
 # Apenas empacotar e gerar deploy/roku-channel.zip:
 npm run package-node
 ```
@@ -191,6 +194,9 @@ npm run deploy-py
 
 # Ou passar IP e Senha como argumentos:
 npm run deploy-py 10.0.0.171 sobeoapp
+
+# Ativar depurador de deploy via Python (logs de cabeçalhos HTTP, auth e retornos):
+npm run deploy-py -- --debug
 
 # Apenas empacotar via Python (gera deploy/roku-channel.zip):
 npm run package-py
