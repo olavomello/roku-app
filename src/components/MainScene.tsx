@@ -14,7 +14,9 @@ import { config } from '../utils/config';
 export const MainScene: React.FC = () => {
   const [currentScene, setCurrentScene] = useState<SceneType>('HOME');
   const [feedData, setFeedData] = useState<FeedData | null>(null);
-  const [feedUrl, setFeedUrl] = useState<string>('/feeds/sample-feed.json');
+  const [feedUrl, setFeedUrl] = useState<string>(
+    config.remoteFeedUrl || config.localFeedUrl || '/feeds/sample-feed.json'
+  );
   const [selectedCategory, setSelectedCategory] = useState<string>('All');
   const [focusedIndex, setFocusedIndex] = useState<number>(0);
   const [selectedVideo, setSelectedVideo] = useState<Video | null>(null);
