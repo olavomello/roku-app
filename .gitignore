@@ -1,0 +1,53 @@
+# Build
+out/
+build/
+dist/
+release/
+*.pkg
+*.zip
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Editors
+.cursor/
+.cursor-cache/
+.idea/
+.vscode/*
+!.vscode/extensions.json
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+
+# Temp
+*.tmp
+*.temp
+*.bak
+*.swp
+
+# Env
+.env
+.env.*
+!.env.example
+
+# Roku
+roku.properties
+roku.env
+
+# Node
+node_modules/
+
+# Python
+__pycache__/
+.venv/
+venv/
+
+# Cache
+.cache/
+.tmp/

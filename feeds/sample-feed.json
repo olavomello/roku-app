@@ -1,0 +1,10 @@
+{
+  "videos":[
+    {
+      "id":"1",
+      "title":"Vídeo Exemplo",
+      "thumbnail":"https://example.com/thumb.jpg",
+      "url":"https://example.com/video.mp4"
+    }
+  ]
+}
