@@ -18,7 +18,8 @@
     "package-py": "python3 scripts/package-roku.py",
     "deploy-node": "node scripts/deploy-roku.js",
     "deploy-py": "python3 scripts/deploy-roku.py",
-    "package:roku": "node scripts/package-roku.js",
+    "transpile": "node scripts/transpile-roku.js",
+    "package:roku": "node scripts/transpile-roku.js && node scripts/package-roku.js",
     "deploy:roku": "node scripts/deploy-roku.js"
   },
   "dependencies": {
