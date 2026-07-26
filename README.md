@@ -147,10 +147,10 @@ Crie ou edite o arquivo `.env` na raiz do projeto para configurar as credenciais
 
 ```env
 # IP address or hostname of the Roku device to run the device tests against
-ROKU_HOST=10.0.0.171
+ROKU_HOST=0.0.0.0
 
 # Developer password for that device (set when you enabled developer mode)
-ROKU_PASSWORD=sobeoapp
+ROKU_PASSWORD=
 ```
 
 ---
@@ -173,7 +173,7 @@ Antes de qualquer deploy, ative o Modo Desenvolvedor na sua Roku TV:
     - **Seta para Direita / Right** (1 vez)
 2. Anote o **IP da Roku TV** exibido na tela (exemplo: `10.0.0.171`).
 3. Escolha **Enable developer settings and restart**.
-4. Aceite os termos e defina uma **senha do desenvolvedor** (exemplo: `sobeoapp`). A TV irá reiniciar.
+4. Aceite os termos e defina uma **senha do desenvolvedor** (exemplo: `yourpass`). A TV irá reiniciar.
 
 ---
 
@@ -186,7 +186,7 @@ Utiliza a biblioteca oficial da comunidade Roku (`roku-deploy`) para empacotar o
 npm run deploy-node
 
 # Ou passar IP e Senha diretamente como argumentos:
-npm run deploy-node 10.0.0.171 sobeoapp
+npm run deploy-node 0.0.0.0 yourpass
 
 # Ativar depurador de deploy (gera logs detalhados de cada etapa):
 npm run deploy-node -- --debug
@@ -206,7 +206,7 @@ Permite o envio via script Python (compatível com Windows, macOS e Linux sem de
 npm run deploy-py
 
 # Ou passar IP e Senha como argumentos:
-npm run deploy-py 10.0.0.171 sobeoapp
+npm run deploy-py 0.0.0.0 yourpass
 
 # Ativar depurador de deploy via Python (logs de cabeçalhos HTTP, auth e retornos):
 npm run deploy-py -- --debug
@@ -220,8 +220,8 @@ npm run package-py
 ### Opção C: Sideloading Manual pelo Navegador Web
 
 1. Gere o arquivo de pacote executando `npm run package-node` (o arquivo `roku-channel.zip` será gerado na pasta `deploy/`).
-2. Abra o seu navegador e acesse o IP da Roku TV: `http://10.0.0.171`
-3. Faça login com usuário `rokudev` e a senha definida no Modo Desenvolvedor (`sobeoapp`).
+2. Abra o seu navegador e acesse o IP da Roku TV: `http://0.0.0.0`
+3. Faça login com usuário `rokudev` e a senha definida no Modo Desenvolvedor (`yourpass`).
 4. Na tela do **Roku Development Application Installer**, selecione o arquivo `deploy/roku-channel.zip` e clique no botão **Install**.
 
 ---

@@ -30,7 +30,7 @@ def deploy_to_roku():
 
     positional_args = [arg for arg in sys.argv[1:] if not arg.startswith("-")]
     roku_ip = positional_args[0] if len(positional_args) > 0 else os.environ.get("ROKU_HOST", os.environ.get("ROKU_IP", "10.0.0.171"))
-    roku_pass = positional_args[1] if len(positional_args) > 1 else os.environ.get("ROKU_PASSWORD", os.environ.get("ROKU_DEV_PASSWORD", "sobeoapp"))
+    roku_pass = positional_args[1] if len(positional_args) > 1 else os.environ.get("ROKU_PASSWORD", os.environ.get("ROKU_DEV_PASSWORD", ""))
 
     clean_ip = roku_ip.replace("http://", "").replace("https://", "").strip("/")
     username = "rokudev"
