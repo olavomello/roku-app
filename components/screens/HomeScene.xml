@@ -48,15 +48,15 @@
 
         <!-- RowList grid — mirrors 3-col grid of <motion.div> video cards -->
         <!-- itemComponentName mirrors the card component (VideoRowListItem)  -->
-        <!-- rowItemSize [300,230] = poster(300×180) + info bar(300×50)       -->
+        <!-- rowItemSize/rowItemSpacing are 2D arrays set in BRS init() for   -->
+        <!-- reliable parsing — XML attribute parsing of nested arrays is     -->
+        <!-- firmware-dependent and not guaranteed on all Roku devices        -->
         <RowList
             id="rowList"
             translation="[80, 105]"
             itemSize="[1180, 240]"
-            numRows="3"
-            rowItemSize="[[300, 230]]"
-            rowItemSpacing="[[28, 0]]"
-            itemSpacing="[0, 30]"
+            numRows="4"
+            itemSpacing="[0, 24]"
             itemComponentName="VideoRowListItem"
             rowFocusAnimationStyle="floatingFocus" />
 

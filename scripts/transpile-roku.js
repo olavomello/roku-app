@@ -97,10 +97,48 @@ function readSrc(relPath) {
 function readRoot(relPath) {
   return readFileSync(join(ROOT, relPath), 'utf8');
 }
+
+/**
+ * Replace every non-ASCII character in BRS source text with a safe ASCII equivalent.
+ * BrightScript's parser (on many Roku firmware versions) raises compile error &h9d
+ * ("Builtin function call expected") when it encounters bytes outside ASCII range,
+ * even inside comment lines.
+ *
+ * Replacements keep the original meaning as close as possible so that auto-generated
+ * comment blocks remain human-readable in the Roku developer console.
+ */
+function sanitizeBrs(src) {
+  return src
+    // Arrows
+    .replace(/←/g, '<-')   // ← LEFT ARROW
+    .replace(/→/g, '->')   // → RIGHT ARROW
+    .replace(/↔/g, '<->') // ↔ LEFT RIGHT ARROW
+    // Dashes / box-drawing
+    .replace(/—/g, '--')   // — EM DASH
+    .replace(/–/g, '-')    // – EN DASH
+    .replace(/─/g, '-')    // ─ BOX DRAWINGS LIGHT HORIZONTAL (and similar)
+    .replace(/[━-╿]/g, '-') // other box-drawing chars
+    // Media / UI symbols used in BRS string literals
+    .replace(/⏸/g, '||')   // ⏸ PAUSE BUTTON  → ||
+    .replace(/▶/g, '>')    // ▶ BLACK RIGHT-POINTING TRIANGLE  → >
+    .replace(/◀/g, '<')    // ◀ BLACK LEFT-POINTING TRIANGLE   → <
+    .replace(/◄/g, '<')    // ◄ BLACK LEFT-POINTING POINTER     → <
+    .replace(/►/g, '>')    // ► BLACK RIGHT-POINTING POINTER    → >
+    .replace(/⏪/g, '<<')   // ⏪ BLACK LEFT-POINTING DOUBLE TRIANGLE
+    .replace(/⏩/g, '>>')   // ⏩ BLACK RIGHT-POINTING DOUBLE TRIANGLE
+    // Bullets / decorative
+    .replace(/•/g, '*')    // • BULLET
+    .replace(/●/g, '*')    // ● BLACK CIRCLE
+    // Catch-all: replace any remaining non-ASCII with '?'
+    .replace(/[^\x00-\x7F]/g, '?');
+}
+
 function writeOut(relPath, content) {
   const full = join(ROOT, relPath);
   mkdirSync(dirname(full), { recursive: true });
-  writeFileSync(full, content, 'utf8');
+  // BrightScript source files must be pure ASCII — sanitize before writing
+  const output = relPath.endsWith('.brs') ? sanitizeBrs(content) : content;
+  writeFileSync(full, output, 'utf8');
   console.log(`  ✓  ${relPath}`);
 }
 
@@ -1153,15 +1191,15 @@ function generateHomeScene(colors) {
 
         <!-- RowList grid — mirrors 3-col grid of <motion.div> video cards -->
         <!-- itemComponentName mirrors the card component (VideoRowListItem)  -->
-        <!-- rowItemSize [300,230] = poster(300×180) + info bar(300×50)       -->
+        <!-- rowItemSize/rowItemSpacing are 2D arrays set in BRS init() for   -->
+        <!-- reliable parsing — XML attribute parsing of nested arrays is     -->
+        <!-- firmware-dependent and not guaranteed on all Roku devices        -->
         <RowList
             id="rowList"
             translation="[80, 105]"
             itemSize="[1180, 240]"
-            numRows="3"
-            rowItemSize="[[300, 230]]"
-            rowItemSpacing="[[28, 0]]"
-            itemSpacing="[0, 30]"
+            numRows="4"
+            itemSpacing="[0, 24]"
             itemComponentName="VideoRowListItem"
             rowFocusAnimationStyle="floatingFocus" />
 
@@ -1319,9 +1357,17 @@ sub init()
     m.artistName       = m.top.findNode("artistName")
 
     if m.rowList <> invalid
-        ' Mirrors: onClick / onMouseEnter → select / focus
+        ' rowItemSize and rowItemSpacing must be set in BRS — not XML.
+        ' Roku XML parser does not reliably parse nested 2D array literals
+        ' like [[300,230]] as roArray of roArray across all firmware versions.
+        ' Item cell: 300 wide x 230 tall (poster 300x180 + info bar 50)
+        m.rowList.rowItemSize    = [[300, 230]]
+        ' 28px gap between items horizontally, 0px vertically (row manages vertical)
+        m.rowList.rowItemSpacing = [[28, 0]]
+
+        ' Mirrors: onClick / onMouseEnter -> select / focus
         m.rowList.observeField("rowItemSelected", "onItemSelected")
-        ' Mirrors: setFocusedIndex(idx) on hover/d-pad → right panel update
+        ' Mirrors: setFocusedIndex(idx) on hover/d-pad -> right panel update
         m.rowList.observeField("rowItemFocused", "onRowItemFocused")
     end if
 end sub
