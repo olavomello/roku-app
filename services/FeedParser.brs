@@ -25,8 +25,8 @@ end function
 ' Detects feed format and routes to the correct normalizer
 ' ─────────────────────────────────────────────────────────────────────
 function FeedParser_Parse(jsonString as String) as Object
-    log = Logger("FeedParser")
-    log.info("Starting feed parse — ContentNode tree construction")
+    logTag = "FeedParser"
+    LogInfo(logTag, "Starting feed parse — ContentNode tree construction")
 
     rootNode = CreateObject("roSGNode", "ContentNode")
     rowNode = rootNode.createChild("ContentNode")
@@ -34,7 +34,7 @@ function FeedParser_Parse(jsonString as String) as Object
 
     json = ParseJson(jsonString)
     if json = invalid
-        log.error("ParseJson failed — invalid JSON string")
+        LogError(logTag, "ParseJson failed — invalid JSON string")
         return rootNode
     end if
 
@@ -43,19 +43,19 @@ function FeedParser_Parse(jsonString as String) as Object
     ' Format 0: Root-level array [ { title, url, ... } ]
     ' Mirrors: if (Array.isArray(parsed)) items = parsed
     if type(json) = "roArray"
-        log.info("Detected root-level array (" + json.count().toStr() + " items)")
+        LogInfo(logTag, "Detected root-level array (" + json.count().toStr() + " items)")
         items = json
 
     ' Format 1: Simple { "videos": [...] }
     ' Mirrors: else if (Array.isArray(parsed.videos)) items = parsed.videos
     else if type(json) = "roAssociativeArray" and json.videos <> invalid and type(json.videos) = "roArray"
-        log.info("Detected videos array (" + json.videos.count().toStr() + " items)")
+        LogInfo(logTag, "Detected videos array (" + json.videos.count().toStr() + " items)")
         items = json.videos
 
     ' Format 2: Roku Content Feed { "movie":[...], "shortFormVideos":[...], ... }
     ' Mirrors: else if (Array.isArray(parsed.shortFormVideos) || ...)
     else if type(json) = "roAssociativeArray" and (json.movie <> invalid or json.shortFormVideos <> invalid or json.tvSpecial <> invalid)
-        log.info("Detected Roku Content Feed schema")
+        LogInfo(logTag, "Detected Roku Content Feed schema")
         if json.movie <> invalid and type(json.movie) = "roArray"
             for each item in json.movie
                 items.push(item)
@@ -74,17 +74,17 @@ function FeedParser_Parse(jsonString as String) as Object
 
     ' Fallback: search all keys for first array — mirrors the fallback loop
     else if type(json) = "roAssociativeArray"
-        log.warn("Unrecognized feed structure — searching all array keys")
+        LogWarn(logTag, "Unrecognized feed structure — searching all array keys")
         for each key in json
             if type(json[key]) = "roArray"
                 items = json[key]
-                log.info("Found array under key: " + key)
+                LogInfo(logTag, "Found array under key: " + key)
                 exit for
             end if
         end for
     end if
 
-    log.info("Normalizing " + items.count().toStr() + " feed items → ContentNodes")
+    LogInfo(logTag, "Normalizing " + items.count().toStr() + " feed items → ContentNodes")
     fallbacks = FeedParser_FallbackStreams()
 
     for i = 0 to items.count() - 1
@@ -99,7 +99,7 @@ function FeedParser_Parse(jsonString as String) as Object
         nextItem:
     end for
 
-    log.info("ContentNode tree built: " + rowNode.getChildCount().toStr() + " items in row")
+    LogInfo(logTag, "ContentNode tree built: " + rowNode.getChildCount().toStr() + " items in row")
     return rootNode
 end function
 

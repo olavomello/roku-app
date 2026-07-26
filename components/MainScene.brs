@@ -16,8 +16,8 @@
 ' global keydown        → onKeyEvent(key, press)
 
 sub init()
-    m.log = Logger("MainScene")
-    m.log.info("Initializing MainScene — Roku SceneGraph Channel")
+    m.logTag = "MainScene"
+    LogInfo(m.logTag, "Initializing MainScene — Roku SceneGraph Channel")
 
     ' Cache node refs — mirrors useRef / DOM refs
     m.homeScene          = m.top.findNode("homeScene")
@@ -43,7 +43,7 @@ end sub
 ' Mirrors: async function fetchFeed(url: string)
 ' Creates LoadFeedTask node and starts it — equivalent to initiating an async fetch
 sub loadContentFeed()
-    m.log.info("Creating LoadFeedTask — mirrors async fetchFeed()")
+    LogInfo(m.logTag, "Creating LoadFeedTask — mirrors async fetchFeed()")
 
     m.feedTask = CreateObject("roSGNode", "LoadFeedTask")
     if m.feedTask = invalid
@@ -70,7 +70,7 @@ sub onFeedLoaded()
     if m.feedTask = invalid then return
     if m.feedTask.content = invalid then return
 
-    m.log.info("Feed loaded — setting HomeScene content")
+    LogInfo(m.logTag, "Feed loaded — setting HomeScene content")
 
     ' Mirrors: setFeedData(data) → passes ContentNode tree to HomeScene
     if m.homeScene <> invalid
@@ -97,7 +97,7 @@ sub onFeedError()
 end sub
 
 sub showError(msg as String)
-    m.log.error("Feed load error: " + msg)
+    LogError(m.logTag, "Feed load error: " + msg)
     if m.loadingOverlay <> invalid  then m.loadingOverlay.visible = false
     if m.errorOverlay <> invalid    then m.errorOverlay.visible = true
     if m.errorMessageLabel <> invalid then m.errorMessageLabel.text = msg
@@ -109,7 +109,7 @@ sub onVideoSelected()
     selectedVideo = m.homeScene.selectedVideo
     if selectedVideo = invalid then return
 
-    m.log.info("Navigating to PlayerScene: " + selectedVideo.title)
+    LogInfo(m.logTag, "Navigating to PlayerScene: " + selectedVideo.title)
 
     ' Mirrors: setCurrentScene('PLAYER') — hide HOME, show PLAYER
     m.homeScene.visible  = false
@@ -124,7 +124,7 @@ end sub
 sub onPlayerStateChanged()
     if m.playerScene = invalid then return
     state = m.playerScene.state
-    m.log.info("Player state: " + state)
+    LogInfo(m.logTag, "Player state: " + state)
     if state = "finished" or state = "error"
         navigateToHome()
     end if
@@ -132,7 +132,7 @@ end sub
 
 ' Mirrors: handleBackToHome() → setCurrentScene('HOME')
 sub navigateToHome()
-    m.log.info("Returning to HomeScene — mirrors handleBackToHome()")
+    LogInfo(m.logTag, "Returning to HomeScene — mirrors handleBackToHome()")
     if m.playerScene <> invalid
         m.playerScene.control = "stop"
         m.playerScene.visible = false
@@ -148,7 +148,7 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
     if not press then return false
     if key = "back"
         if m.playerScene <> invalid and m.playerScene.visible
-            m.log.info("Back key — navigating to HomeScene")
+            LogInfo(m.logTag, "Back key — navigating to HomeScene")
             navigateToHome()
             return true
         end if

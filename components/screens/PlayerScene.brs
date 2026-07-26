@@ -17,8 +17,8 @@
 ' AUTO_HIDE_OSD_MS = 4000    → osdTimer.duration = 4
 
 sub init()
-    m.log = Logger("PlayerScene")
-    m.log.info("Initializing PlayerScene")
+    m.logTag = "PlayerScene"
+    LogInfo(m.logTag, "Initializing PlayerScene")
 
     m.videoPlayer     = m.top.findNode("videoPlayer")
     m.osdTitle        = m.top.findNode("osdTitle")
@@ -53,7 +53,7 @@ sub onContentChanged()
     if m.videoPlayer = invalid then return
 
     video = m.top.content
-    m.log.info("PlayerScene content: " + video.title)
+    LogInfo(m.logTag, "PlayerScene content: " + video.title)
 
     ' Set OSD title — mirrors <h1>{video.title}</h1>
     if m.osdTitle <> invalid then m.osdTitle.text = video.title
@@ -99,7 +99,7 @@ end sub
 sub onVideoState()
     if m.videoPlayer = invalid then return
     state = m.videoPlayer.state
-    m.log.info("Video state: " + state)
+    LogInfo(m.logTag, "Video state: " + state)
 
     if state = "playing"
         ' Mirrors: setIsPlaying(true) + hide pause indicator
@@ -117,14 +117,14 @@ sub onVideoState()
 
     else if state = "finished"
         ' Mirrors: onEnded → setIsPlaying(false) + showOSD(true)
-        m.log.info("Playback finished — mirrors onEnded handler")
+        LogInfo(m.logTag, "Playback finished — mirrors onEnded handler")
         if m.pauseIndicatorBg   <> invalid then m.pauseIndicatorBg.visible = false
         if m.pauseIndicatorIcon <> invalid then m.pauseIndicatorIcon.visible = false
         showOsd()
 
     else if state = "error"
         ' Mirrors: handleVideoError — show OSD (Roku shows error message natively)
-        m.log.error("Video playback error")
+        LogError(m.logTag, "Video playback error")
         showOsd()
     end if
 end sub
@@ -190,7 +190,7 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
             ctrl = "play"
             if m.videoPlayer.state = "playing" then ctrl = "pause"
             m.videoPlayer.control = ctrl
-            m.log.info("Toggle play/pause → " + ctrl)
+            LogInfo(m.logTag, "Toggle play/pause → " + ctrl)
         end if
         return true
 
@@ -200,7 +200,7 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
             newPos = m.videoPlayer.position - 10
             if newPos < 0 then newPos = 0
             m.videoPlayer.seek = newPos
-            m.log.info("Seek -10s → " + newPos.toStr())
+            LogInfo(m.logTag, "Seek -10s → " + newPos.toStr())
         end if
         return true
 
@@ -212,7 +212,7 @@ function onKeyEvent(key as String, press as Boolean) as Boolean
                 newPos = m.totalDuration - 1
             end if
             m.videoPlayer.seek = newPos
-            m.log.info("Seek +10s → " + newPos.toStr())
+            LogInfo(m.logTag, "Seek +10s → " + newPos.toStr())
         end if
         return true
 

@@ -63,9 +63,9 @@ export async function deployToRoku(ipArg, passArg) {
       'manifest',
       'source/**/*.*',
       'components/**/*.*',
-      'screens/**/*.*',
+      // screens/ and tasks/ excluded: canonical BRS+XML live under components/screens/ and components/tasks/
+      // Including them causes duplicate component definitions that break Roku SceneGraph compilation
       'services/**/*.*',
-      'tasks/**/*.*',
       'models/**/*.*',
       'utils/**/*.*',
       'feeds/**/*.*',
@@ -102,11 +102,11 @@ export async function deployToRoku(ipArg, passArg) {
       console.error(`[DEBUG 🛠️] Stack Trace:`);
       console.error(err);
     }
-    console.log(`\n💡 Dicas de solução:`);
-    console.log(` 1. Certifique-se de que a Roku TV (${cleanIp}) está ligada e na MESMA REDE Wi-Fi local que este computador.`);
-    console.log(` 2. Confirme se o Developer Mode está ativo na Roku TV.`);
-    console.log(` 3. Verifique a senha do Desenvolvedor configurada na TV (atual informada: "${rokuPass}").`);
-    console.log(` 4. Se estiver rodando em ambiente de nuvem/container, execute o comando diretamente no VS Code local:`);
+    console.log(`\n💡 Troubleshooting tips:`);
+    console.log(` 1. Make sure the Roku TV (${cleanIp}) is powered on and on the SAME local Wi-Fi network as this computer.`);
+    console.log(` 2. Confirm that Developer Mode is enabled on the Roku TV.`);
+    console.log(` 3. Check the Developer Mode password configured on the TV (current value: "${rokuPass}").`);
+    console.log(` 4. If running in a cloud/container environment, run the command directly from VS Code locally:`);
     console.log(`    npm run deploy-node ${cleanIp} ${rokuPass} --debug`);
   }
 }

@@ -12,8 +12,8 @@
 ' categories / category pills → (future: LabelList above RowList)
 
 sub init()
-    m.log = Logger("HomeScene")
-    m.log.info("Initializing HomeScene")
+    m.logTag = "HomeScene"
+    LogInfo(m.logTag, "Initializing HomeScene")
 
     m.rowList          = m.top.findNode("rowList")
     m.countBadge       = m.top.findNode("countBadge")
@@ -41,7 +41,7 @@ sub onContentChanged()
     if m.top.content = invalid then return
     if m.rowList = invalid then return
 
-    m.log.info("Content received — populating RowList")
+    LogInfo(m.logTag, "Content received — populating RowList")
     m.rowList.content = m.top.content
 
     ' Count badge — mirrors "{videos.length} Titles"
@@ -148,7 +148,7 @@ sub onItemSelected()
     video = rowNode.getChild(pos[1])
     if video = invalid then return
 
-    m.log.info("Video selected: " + video.title)
+    LogInfo(m.logTag, "Video selected: " + video.title)
     ' Mirrors: onSelectVideo(video) → triggers MainScene.handleSelectVideo via observeField
     m.top.selectedVideo = video
 end sub

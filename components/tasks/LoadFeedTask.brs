@@ -16,8 +16,8 @@ end sub
 
 ' Mirrors: async function fetchFeed(url: string): Promise<void>
 sub executeTask()
-    log = Logger("LoadFeedTask")
-    log.info("Executing LoadFeedTask — URL: " + m.top.url)
+    logTag = "LoadFeedTask"
+    LogInfo(logTag, "Executing LoadFeedTask — URL: " + m.top.url)
 
     url = m.top.url
     jsonString = ""
@@ -33,33 +33,33 @@ sub executeTask()
         http.SetUrl(url)
         http.AddHeader("Accept", "application/json")
         jsonString = http.GetToString()
-        log.info("HTTP response length: " + jsonString.len().toStr() + " bytes")
+        LogInfo(logTag, "HTTP response length: " + jsonString.len().toStr() + " bytes")
     else
         ' Local pkg: file (mirrors SAMPLE_FEED_DATA path)
         jsonString = ReadAsciiFile(url)
-        log.info("Local feed read: " + jsonString.len().toStr() + " bytes")
+        LogInfo(logTag, "Local feed read: " + jsonString.len().toStr() + " bytes")
     end if
 
     ' Mirrors: if (!response.ok) throw new Error(`HTTP ${status}`)
     if jsonString = "" or jsonString = invalid
         errMsg = "Failed to read feed from: " + url
-        log.error(errMsg)
+        LogError(logTag, errMsg)
         m.top.errorMessage = errMsg
         return
     end if
 
     ' Mirrors: const parsedFeed = FeedParser.parseFeed(json)
-    log.info("Feed fetched — passing to FeedParser_Parse")
+    LogInfo(logTag, "Feed fetched — passing to FeedParser_Parse")
     parsed = FeedParser_Parse(jsonString)
 
     if parsed = invalid
         errMsg = "FeedParser returned invalid result"
-        log.error(errMsg)
+        LogError(logTag, errMsg)
         m.top.errorMessage = errMsg
         return
     end if
 
     ' Mirrors: setFeedData(parsedFeed) — fires onFeedLoaded observer in MainScene
     m.top.content = parsed
-    log.info("Task complete — content node set, observer will fire")
+    LogInfo(logTag, "Task complete — content node set, observer will fire")
 end sub
