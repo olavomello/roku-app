@@ -6,6 +6,10 @@ release/
 *.pkg
 *.zip
 
+# Allow deploy directory to be tracked and zip files included in the repository
+!deploy/
+!deploy/*.zip
+
 # Logs
 *.log
 logs/
