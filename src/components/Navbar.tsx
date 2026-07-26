@@ -103,16 +103,18 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Right Controls & HUD */}
       <div className="flex items-center gap-3">
-        {/* Direct Download button for physical Roku TV installation */}
-        <a
-          href="/roku-channel.zip"
-          download="roku-channel.zip"
-          className="px-3 py-1.5 bg-[#1e172e] hover:bg-[#662D91] border border-purple-900/40 hover:border-purple-400 text-purple-200 hover:text-white rounded-xl text-xs font-bold flex items-center gap-1.5 transition shadow-sm"
-          title="Download roku-channel.zip for sideloading on Roku TV"
-        >
-          <Download className="w-3.5 h-3.5 text-purple-300" />
-          <span className="hidden md:inline">Download Roku ZIP</span>
-        </a>
+        {/* Direct Download button for physical Roku TV installation (DEV mode only) */}
+        {import.meta.env.DEV && (
+          <a
+            href="/roku-channel.zip"
+            download="roku-channel.zip"
+            className="px-3 py-1.5 bg-[#1e172e] hover:bg-[#662D91] border border-purple-900/40 hover:border-purple-400 text-purple-200 hover:text-white rounded-xl text-xs font-bold flex items-center gap-1.5 transition shadow-sm"
+            title="Download roku-channel.zip for sideloading on Roku TV"
+          >
+            <Download className="w-3.5 h-3.5 text-purple-300" />
+            <span className="hidden md:inline">Download Roku ZIP</span>
+          </a>
+        )}
 
         {/* Remote Control Button Toggle */}
         <button
