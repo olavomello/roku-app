@@ -79,20 +79,20 @@ end sub
 sub onVideoPosition()
     if m.videoPlayer = invalid then return
 
-    pos = m.videoPlayer.position
+    curPos = m.videoPlayer.position
     dur = m.videoPlayer.duration
     if dur = invalid or dur <= 0 then return
     if m.totalDuration <= 0 then m.totalDuration = dur
 
     ' Progress fill width — mirrors width: `${(currentTime/duration)*100}%`
-    progress  = pos / dur
+    progress  = curPos / dur
     fillWidth = int(1776 * progress)
     if m.progressFill <> invalid    then m.progressFill.width = fillWidth
     if m.progressHandle <> invalid  then m.progressHandle.translation = [66 + fillWidth, 835]
 
     ' Time labels — mirrors formatTime(currentTime) / formatTime(duration - currentTime)
-    if m.timeElapsed <> invalid   then m.timeElapsed.text   = fmtSec(pos)
-    if m.timeRemaining <> invalid then m.timeRemaining.text = "-" + fmtSec(dur - pos)
+    if m.timeElapsed <> invalid   then m.timeElapsed.text   = fmtSec(curPos)
+    if m.timeRemaining <> invalid then m.timeRemaining.text = "-" + fmtSec(dur - curPos)
 end sub
 
 ' Mirrors: state change handlers (readyToPlay→autoplay, playing, paused, finished, error)

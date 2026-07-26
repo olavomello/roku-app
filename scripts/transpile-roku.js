@@ -1324,9 +1324,9 @@ end sub
 ' Mirrors: setFocusedIndex(idx) — right panel spotlight update on d-pad move
 sub onRowItemFocused()
     if m.rowList = invalid then return
-    pos = m.rowList.rowItemFocused
-    if pos <> invalid
-        updateSpotlight(pos)
+    focusedPos = m.rowList.rowItemFocused
+    if focusedPos <> invalid
+        updateSpotlight(focusedPos)
     end if
 end sub
 
@@ -1404,13 +1404,13 @@ end sub
 ' Mirrors: onClick → onSelectVideo(video)
 sub onItemSelected()
     if m.rowList = invalid or m.rowList.content = invalid then return
-    pos = m.rowList.rowItemSelected
-    if pos = invalid then return
+    selectedPos = m.rowList.rowItemSelected
+    if selectedPos = invalid then return
 
-    rowNode = m.rowList.content.getChild(pos[0])
+    rowNode = m.rowList.content.getChild(selectedPos[0])
     if rowNode = invalid then return
 
-    video = rowNode.getChild(pos[1])
+    video = rowNode.getChild(selectedPos[1])
     if video = invalid then return
 
     LogInfo(m.logTag, "Video selected: " + video.title)
@@ -1715,20 +1715,20 @@ end sub
 sub onVideoPosition()
     if m.videoPlayer = invalid then return
 
-    pos = m.videoPlayer.position
+    curPos = m.videoPlayer.position
     dur = m.videoPlayer.duration
     if dur = invalid or dur <= 0 then return
     if m.totalDuration <= 0 then m.totalDuration = dur
 
     ' Progress fill width — mirrors width: \`\${(currentTime/duration)*100}%\`
-    progress  = pos / dur
+    progress  = curPos / dur
     fillWidth = int(1776 * progress)
     if m.progressFill <> invalid    then m.progressFill.width = fillWidth
     if m.progressHandle <> invalid  then m.progressHandle.translation = [66 + fillWidth, 835]
 
     ' Time labels — mirrors formatTime(currentTime) / formatTime(duration - currentTime)
-    if m.timeElapsed <> invalid   then m.timeElapsed.text   = fmtSec(pos)
-    if m.timeRemaining <> invalid then m.timeRemaining.text = "-" + fmtSec(dur - pos)
+    if m.timeElapsed <> invalid   then m.timeElapsed.text   = fmtSec(curPos)
+    if m.timeRemaining <> invalid then m.timeRemaining.text = "-" + fmtSec(dur - curPos)
 end sub
 
 ' Mirrors: state change handlers (readyToPlay→autoplay, playing, paused, finished, error)
