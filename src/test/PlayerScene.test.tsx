@@ -28,7 +28,7 @@ describe('PlayerScene Component Tests', () => {
     );
 
     expect(screen.getByText('Test Stream Video')).toBeInTheDocument();
-    expect(screen.getByText('Back to Home (Esc)')).toBeInTheDocument();
+    expect(screen.getByText('Voltar (Esc)')).toBeInTheDocument();
   });
 
   it('triggers onBack when Back button is clicked', () => {
@@ -43,7 +43,7 @@ describe('PlayerScene Component Tests', () => {
       />
     );
 
-    const backBtn = screen.getByText('Back to Home (Esc)');
+    const backBtn = screen.getByText('Voltar (Esc)');
     fireEvent.click(backBtn);
     expect(onBack).toHaveBeenCalled();
   });

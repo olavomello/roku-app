@@ -47,8 +47,8 @@ describe('HomeScene Component Tests', () => {
 
     expect(screen.getAllByText('First Test Video')[0]).toBeInTheDocument();
     expect(screen.getByText('Second Test Video')).toBeInTheDocument();
-    expect(screen.getByText('Roku Focused Item')).toBeInTheDocument();
-    expect(screen.getByText('Play Stream (Press OK / Enter)')).toBeInTheDocument();
+    expect(screen.getByText('Em destaque')).toBeInTheDocument();
+    expect(screen.getByText('Assistir (Enter)')).toBeInTheDocument();
   });
 
   it('triggers onSelectVideo when play stream button is clicked', () => {
@@ -67,7 +67,7 @@ describe('HomeScene Component Tests', () => {
       />
     );
 
-    const playBtn = screen.getByText('Play Stream (Press OK / Enter)');
+    const playBtn = screen.getByText('Assistir (Enter)');
     fireEvent.click(playBtn);
     expect(onSelectVideo).toHaveBeenCalledWith(mockVideos[0]);
   });
