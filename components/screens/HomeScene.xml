@@ -22,20 +22,20 @@
         <Rectangle id="navLogoIcon" translation="[110, 13]" width="24" height="24"
                    color="0x662D91FF" />
 
-        <Label id="navChannelName" text="Roku OS TV"
+        <Label id="navChannelName" text="App de Videos"
                translation="[142, 14]" width="160" height="24"
                font="font:SmallBoldSystemFont" color="0xFFFFFFFF" />
 
         <Rectangle id="navBadgeBg" translation="[310, 15]" width="118" height="20"
                    color="0x2E106566" blendingEnabled="true" />
-        <Label id="navBadgeLabel" text="Playlet Pattern"
+        <Label id="navBadgeLabel" text="Canal de Videos"
                translation="[312, 16]" width="114" height="18"
                font="font:SmallSystemFont" color="0xC4B5FDFF" horizAlign="center" />
 
         <!-- Category tab bar — focusable, populated dynamically from row titles -->
         <CategoryNav id="categoryNav" translation="[454, 13]" />
 
-        <Label id="navRemoteHint" text="Use D-Pad remote"
+        <Label id="navRemoteHint" text="Use o controle remoto"
                translation="[1700, 14]" width="210" height="24"
                font="font:SmallSystemFont" color="0x4B5563FF" horizAlign="right" />
 
@@ -92,7 +92,7 @@
                 loadDisplayMode="scaleToZoom" />
         <Rectangle id="posterFade" translation="[1160, 63]" width="80" height="288"
                    color="0x140E24C0" blendingEnabled="true" />
-        <Label id="posterChipLabel" text="Roku Video Player Target"
+        <Label id="posterChipLabel" text="Player de Video"
                translation="[1536, 328]" width="270" height="22"
                font="font:SmallSystemFont" color="0x7C3AEDFF" horizAlign="right" />
 

@@ -1,16 +1,13 @@
 /**
- * deploy.js — Roku channel packager + sideloader
+ * deploy.js — Empacotador e instalador do canal Roku
  *
- * Inspired by Playlet (github.com/iBicha/playlet) and
- * Jellyfin Roku (github.com/jellyfin/jellyfin-roku).
+ * Uso:
+ *   npm run package          → gera deploy/roku-channel.zip
+ *   npm run deploy           → gera o zip e faz sideload no dispositivo Roku
+ *   node scripts/deploy.js              (igual a package)
+ *   node scripts/deploy.js --deploy     (igual a deploy)
  *
- * Usage:
- *   npm run package          → build deploy/roku-channel.zip only
- *   npm run deploy           → build zip + sideload to Roku device
- *   node scripts/deploy.js              (same as package)
- *   node scripts/deploy.js --deploy     (same as deploy)
- *
- * NEVER runs transpile-roku.js. BRS/XML files are the source of truth.
+ * Os arquivos BRS/XML sao a fonte de verdade. Nunca executa transpile-roku.js.
  */
 
 import rokuDeploy from "roku-deploy";

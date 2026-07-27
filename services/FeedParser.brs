@@ -1,8 +1,8 @@
 ' FeedParser.brs
 ' Parses the JSON feed and builds a ContentNode tree for RowList.
-' Row 0: "Todos os Videos" -- all items
-' Row 1..N: one row per category (Wartime, Comedy, Classic, etc.)
-' Each item is normalized once per row it appears in (ContentNode children cannot be shared).
+' Row 0: "All" -- todos os itens
+' Row 1..N: uma linha por categoria (Wartime, Comedy, Classic, etc.)
+' Cada item e normalizado individualmente por linha (ContentNode nao pode ser compartilhado).
 
 ' ------------------------------------------------------------------
 ' Fallback stream URLs used when an item has no valid stream URL.
@@ -91,10 +91,10 @@ function FeedParser_Parse(jsonString as String) as Object
     fallbacks = FeedParser_FallbackStreams()
 
     ' ---------------------------------------------------------------
-    ' Row 0: "Todos os Videos" -- all items
+    ' Row 0: "All" -- todos os itens
     ' ---------------------------------------------------------------
     todosRow = rootNode.createChild("ContentNode")
-    todosRow.title = "Todos os Videos"
+    todosRow.title = "All"
 
     i = 0
     while i < items.count()

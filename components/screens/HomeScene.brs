@@ -1,6 +1,6 @@
 ' HomeScene.brs
 ' Layout: NAV BAR (y=0-50) + HERO SPOTLIGHT (y=51-375) + ROWLIST (y=410+)
-' Row 0 = Todos os Videos (Destaques), rows 1..N = one per category.
+' Row 0 = "All" (todos os itens), rows 1..N = uma linha por categoria.
 ' CategoryNav in the nav bar is focusable via remote.
 ' To package: npm run package   To deploy: npm run deploy
 
