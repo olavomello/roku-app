@@ -1,7 +1,8 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import { Video, PlaybackState } from '../types';
 import { Play, Clock, Star, Sparkles, Tag } from 'lucide-react';
 import { motion } from 'motion/react';
+import { useAutoScrollFocus } from '../hooks/useAutoScrollFocus';
 
 interface HomeSceneProps {
   videos: Video[];
@@ -26,16 +27,8 @@ export const HomeScene: React.FC<HomeSceneProps> = ({
 }) => {
   const focusedItemRef = useRef<HTMLDivElement>(null);
 
-  // Auto-scroll focused video item into view
-  useEffect(() => {
-    if (focusedItemRef.current) {
-      focusedItemRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest',
-        inline: 'nearest'
-      });
-    }
-  }, [focusedIndex]);
+  // Auto-scroll focused video item into view ONLY when navigating via Keyboard or Remote D-Pad
+  useAutoScrollFocus(focusedIndex, focusedItemRef);
 
   const focusedVideo = videos[focusedIndex] || videos[0];
 

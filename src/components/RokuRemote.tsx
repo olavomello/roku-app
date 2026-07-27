@@ -39,6 +39,11 @@ export const RokuRemote: React.FC<RokuRemoteProps> = ({
   isOpen,
   onClose
 }) => {
+  const handleDirClick = (dir: 'UP' | 'DOWN' | 'LEFT' | 'RIGHT') => {
+    window.dispatchEvent(new CustomEvent('roku-remote-nav'));
+    onDirection(dir);
+  };
+
   if (!isOpen) return null;
 
   return (
@@ -90,7 +95,7 @@ export const RokuRemote: React.FC<RokuRemoteProps> = ({
         <div className="relative w-40 h-40 rounded-full bg-[#120d1c] border-2 border-[#3d2a54] flex items-center justify-center my-2 shadow-inner">
           {/* UP */}
           <button
-            onClick={() => onDirection('UP')}
+            onClick={() => handleDirClick('UP')}
             className="absolute top-1 w-12 h-10 hover:bg-[#662D91]/40 rounded-t-full flex items-center justify-center text-purple-300 active:scale-90 transition"
             title="Up Arrow"
           >
@@ -99,7 +104,7 @@ export const RokuRemote: React.FC<RokuRemoteProps> = ({
 
           {/* DOWN */}
           <button
-            onClick={() => onDirection('DOWN')}
+            onClick={() => handleDirClick('DOWN')}
             className="absolute bottom-1 w-12 h-10 hover:bg-[#662D91]/40 rounded-b-full flex items-center justify-center text-purple-300 active:scale-90 transition"
             title="Down Arrow"
           >
@@ -108,7 +113,7 @@ export const RokuRemote: React.FC<RokuRemoteProps> = ({
 
           {/* LEFT */}
           <button
-            onClick={() => onDirection('LEFT')}
+            onClick={() => handleDirClick('LEFT')}
             className="absolute left-1 h-12 w-10 hover:bg-[#662D91]/40 rounded-l-full flex items-center justify-center text-purple-300 active:scale-90 transition"
             title="Left Arrow"
           >
@@ -117,7 +122,7 @@ export const RokuRemote: React.FC<RokuRemoteProps> = ({
 
           {/* RIGHT */}
           <button
-            onClick={() => onDirection('RIGHT')}
+            onClick={() => handleDirClick('RIGHT')}
             className="absolute right-1 h-12 w-10 hover:bg-[#662D91]/40 rounded-r-full flex items-center justify-center text-purple-300 active:scale-90 transition"
             title="Right Arrow"
           >

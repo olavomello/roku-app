@@ -1,7 +1,8 @@
-import React, { useEffect, useRef, useMemo } from 'react';
+import React, { useRef, useMemo } from 'react';
 import { Video, PlaybackState } from '../types';
 import { Play, Clock, Sparkles, Tv, Search, Settings, Home, Grid } from 'lucide-react';
 import { motion } from 'motion/react';
+import { useAutoScrollFocus } from '../hooks/useAutoScrollFocus';
 
 interface RokuOSLayoutProps {
   videos: Video[];
@@ -53,16 +54,8 @@ export const RokuOSLayout: React.FC<RokuOSLayoutProps> = ({
   const currentVideoList = videos;
   const focusedVideo = currentVideoList[focusedIndex] || currentVideoList[0];
 
-  // Auto-scroll focused video card into view smoothly
-  useEffect(() => {
-    if (focusedCardRef.current) {
-      focusedCardRef.current.scrollIntoView({
-        behavior: 'smooth',
-        block: 'nearest',
-        inline: 'center',
-      });
-    }
-  }, [focusedIndex]);
+  // Auto-scroll focused video card into view smoothly ONLY on Keyboard / D-Pad Remote navigation
+  useAutoScrollFocus(focusedIndex, focusedCardRef);
 
   const formatDuration = (seconds?: number) => {
     if (!seconds) return '0:00';
