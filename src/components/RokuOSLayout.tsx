@@ -1,6 +1,6 @@
 import React, { useRef, useMemo } from 'react';
 import { Video, PlaybackState } from '../types';
-import { Play, Clock, Sparkles, Tv, Search, Settings, Home, Grid } from 'lucide-react';
+import { Play, Clock, Sparkles, Tv } from 'lucide-react';
 import { motion } from 'motion/react';
 import { useAutoScrollFocus } from '../hooks/useAutoScrollFocus';
 
@@ -27,23 +27,21 @@ export const RokuOSLayout: React.FC<RokuOSLayoutProps> = ({
 }) => {
   const focusedCardRef = useRef<HTMLDivElement>(null);
 
-  // Group videos by category for Playlet-style RowList presentation
+  // Agrupa videos por categoria para exibicao em linhas
   const groupedCategories = useMemo(() => {
     if (selectedCategory !== 'All') {
       const catVideos = videos.filter((v) => v.category === selectedCategory);
       return [{ name: selectedCategory, videos: catVideos.length ? catVideos : videos }];
     }
 
-    // Default: Group into rich multi-row categories
     const catMap: Record<string, Video[]> = {};
     videos.forEach((video) => {
-      const cat = video.category || 'Destaques';
+      const cat = video.category || 'Geral';
       if (!catMap[cat]) catMap[cat] = [];
       catMap[cat].push(video);
     });
 
-    // Ensure 'Featured / Destaques' or 'All' comes first
-    const result = [{ name: 'Todos os Vídeos (Destaques)', videos }];
+    const result = [{ name: 'All', videos }];
     Object.keys(catMap).forEach((cat) => {
       result.push({ name: cat, videos: catMap[cat] });
     });
@@ -79,10 +77,7 @@ export const RokuOSLayout: React.FC<RokuOSLayoutProps> = ({
             <div className="w-8 h-8 rounded-lg bg-[#662D91] flex items-center justify-center text-white shadow-md shadow-purple-900/50">
               <Tv className="w-4 h-4" />
             </div>
-            <span className="font-bold text-base tracking-wide text-white">Roku OS TV</span>
-            <span className="px-2 py-0.5 bg-purple-950/80 border border-purple-800/40 text-purple-300 text-[10px] font-mono rounded-full uppercase">
-              Playlet Pattern
-            </span>
+            <span className="font-bold text-base tracking-wide text-white">App de Videos</span>
           </div>
 
           {/* Categories Horizontal Tabs */}
@@ -107,7 +102,7 @@ export const RokuOSLayout: React.FC<RokuOSLayoutProps> = ({
         <div className="flex items-center gap-4 text-xs text-gray-400">
           <div className="flex items-center gap-2 bg-[#161024] px-3 py-1.5 rounded-lg border border-purple-900/30">
             <Sparkles className="w-3.5 h-3.5 text-purple-400" />
-            <span>Use D-Pad remote or Keyboard arrows</span>
+            <span>Use o controle remoto ou setas do teclado</span>
           </div>
         </div>
       </div>
@@ -172,7 +167,7 @@ export const RokuOSLayout: React.FC<RokuOSLayoutProps> = ({
             />
             <div className="absolute inset-0 bg-gradient-to-t from-[#140e24] via-transparent to-transparent" />
             <div className="absolute bottom-3 right-3 px-2 py-1 bg-black/80 text-purple-200 text-[10px] font-mono rounded backdrop-blur-md">
-              Roku Video Player Target
+              Player de Video
             </div>
           </div>
         </div>
@@ -233,6 +228,13 @@ export const RokuOSLayout: React.FC<RokuOSLayoutProps> = ({
                             <Play className="w-3.5 h-3.5 fill-current ml-0.5" />
                           </div>
                         </div>
+                      )}
+
+                      {/* Rating ou ano (so se tiver valor diferente de NR) */}
+                      {(video.rating && video.rating !== 'NR' ? video.rating : video.releaseDate) && (
+                        <span className="absolute top-2 left-2 px-1.5 py-0.5 bg-purple-950/90 text-purple-300 text-[10px] font-bold rounded border border-purple-800/50">
+                          {video.rating && video.rating !== 'NR' ? video.rating : video.releaseDate}
+                        </span>
                       )}
 
                       {/* Duration Tag */}

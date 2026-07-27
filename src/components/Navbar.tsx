@@ -38,38 +38,15 @@ export const Navbar: React.FC<NavbarProps> = ({
     return () => clearInterval(interval);
   }, []);
 
-  // Periodic Wifi Connectivity Monitor (Every 2 minutes)
+  // Monitor de conectividade via eventos do navegador
   useEffect(() => {
-    let isMounted = true;
-
-    const checkConnectivity = async () => {
-      if (typeof navigator !== 'undefined' && !navigator.onLine) {
-        if (isMounted) setIsOnline(false);
-        return;
-      }
-      try {
-        const res = await fetch('/manifest?t=' + Date.now(), { method: 'HEAD', cache: 'no-store' });
-        if (isMounted) setIsOnline(res.ok);
-      } catch {
-        if (isMounted) setIsOnline(false);
-      }
-    };
-
-    checkConnectivity();
-
-    const handleOnline = () => checkConnectivity();
+    const handleOnline  = () => setIsOnline(true);
     const handleOffline = () => setIsOnline(false);
-
-    window.addEventListener('online', handleOnline);
+    window.addEventListener('online',  handleOnline);
     window.addEventListener('offline', handleOffline);
-
-    const interval = setInterval(checkConnectivity, config.wifiCheckIntervalMs);
-
     return () => {
-      isMounted = false;
-      window.removeEventListener('online', handleOnline);
+      window.removeEventListener('online',  handleOnline);
       window.removeEventListener('offline', handleOffline);
-      clearInterval(interval);
     };
   }, []);
 
@@ -98,9 +75,9 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div className="hidden sm:flex items-center gap-1.5 ml-4 pl-4 border-l border-purple-900/50 text-xs text-gray-400">
           <ChevronRight className="w-3.5 h-3.5 text-purple-500" />
           <span className="font-semibold text-purple-200">
-            {currentScene === 'HOME' && 'Home Catalog'}
-            {currentScene === 'PLAYER' && 'Streaming Player'}
-            {currentScene === 'FEED_INSPECTOR' && 'Feed Inspector'}
+            {currentScene === 'HOME' && 'Inicio'}
+            {currentScene === 'PLAYER' && 'Player'}
+            {currentScene === 'FEED_INSPECTOR' && 'Inspetor de Feed'}
           </span>
         </div>
       </div>
@@ -116,10 +93,10 @@ export const Navbar: React.FC<NavbarProps> = ({
                 ? 'bg-[#662D91] text-white border-purple-400 shadow-lg shadow-purple-900/60'
                 : 'bg-[#1e172e] text-purple-200 border-purple-900/40 hover:bg-[#2e2345]'
             }`}
-            title="Toggle between Web/App Layout and Native Roku TV Playlet Layout"
+            title="Alternar entre layout Web e layout Roku TV"
           >
             <Tv className="w-3.5 h-3.5 text-purple-300" />
-            <span>{layoutMode === 'roku' ? '📺 Roku TV Layout' : '💻 Web/App Layout'}</span>
+            <span>{layoutMode === 'roku' ? 'Layout Roku TV' : 'Layout Web'}</span>
           </button>
         )}
 
@@ -132,7 +109,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             title="Download roku-channel.zip for sideloading on Roku TV"
           >
             <Download className="w-3.5 h-3.5 text-purple-300" />
-            <span className="hidden md:inline">Download Roku ZIP</span>
+            <span className="hidden md:inline">Baixar ZIP Roku</span>
           </a>
         )}
 
@@ -147,7 +124,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           title="Toggle On-Screen Roku Remote"
         >
           <Sparkles className="w-3.5 h-3.5 text-purple-300" />
-          <span>Remote Control</span>
+          <span>Controle Remoto</span>
         </button>
 
         {/* Developer Logs / Inspector Button (Only active in Dev Mode) */}
@@ -158,7 +135,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             title="SceneGraph Logs & Feed Debugger (Dev Mode)"
           >
             <Code className="w-3.5 h-3.5 text-purple-400" />
-            <span className="hidden sm:inline">Feed Inspector</span>
+            <span className="hidden sm:inline">Inspetor</span>
           </button>
         )}
 

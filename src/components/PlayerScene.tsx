@@ -1,17 +1,17 @@
 import React, { useRef, useState, useEffect, useCallback } from 'react';
 import { Video, PlaybackState } from '../types';
-import { 
-  Play, 
-  Pause, 
-  RotateCcw, 
-  FastForward, 
-  Rewind, 
-  Volume2, 
-  VolumeX, 
-  ArrowLeft, 
+import {
+  Play,
+  Pause,
+  FastForward,
+  Rewind,
+  Volume2,
+  VolumeX,
+  ArrowLeft,
   Info,
   AlertCircle,
-  Tv
+  Maximize,
+  Minimize
 } from 'lucide-react';
 import { logger } from '../utils/logger';
 
@@ -34,6 +34,7 @@ export const PlayerScene: React.FC<PlayerSceneProps> = ({
   const [duration, setDuration] = useState<number>(video.duration || 0);
   const [isMuted, setIsMuted] = useState<boolean>(false);
   const [showOSD, setShowOSD] = useState<boolean>(true);
+  const [isFullscreen, setIsFullscreen] = useState<boolean>(false);
   const [hasError, setHasError] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
   
@@ -126,6 +127,22 @@ export const PlayerScene: React.FC<PlayerSceneProps> = ({
     }
   };
 
+  const toggleFullscreen = useCallback(() => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen().catch(() => {});
+      setIsFullscreen(true);
+    } else {
+      document.exitFullscreen().catch(() => {});
+      setIsFullscreen(false);
+    }
+  }, []);
+
+  useEffect(() => {
+    const onFsChange = () => setIsFullscreen(!!document.fullscreenElement);
+    document.addEventListener('fullscreenchange', onFsChange);
+    return () => document.removeEventListener('fullscreenchange', onFsChange);
+  }, []);
+
   const [currentStreamUrl, setCurrentStreamUrl] = useState<string>(video.url);
   const [retryAttempt, setRetryAttempt] = useState<number>(0);
 
@@ -202,139 +219,133 @@ export const PlayerScene: React.FC<PlayerSceneProps> = ({
         playsInline
       />
 
-      {/* Video Error Overlay */}
+      {/* Erro de stream */}
       {hasError && (
         <div className="absolute inset-0 bg-[#100c19]/95 flex flex-col items-center justify-center p-8 text-center z-40">
           <div className="w-16 h-16 rounded-full bg-red-950/80 border-2 border-red-500 text-red-400 flex items-center justify-center mb-4">
             <AlertCircle className="w-8 h-8" />
           </div>
-          <h2 className="text-xl font-bold text-white mb-2">Video Stream Unavailable</h2>
+          <h2 className="text-xl font-bold text-white mb-2">Stream indisponivel</h2>
           <p className="text-gray-300 text-xs max-w-md mb-6">{errorMessage}</p>
           <div className="flex items-center gap-4">
             <button
               onClick={handleManualRetry}
               className="px-6 py-2.5 bg-purple-900 hover:bg-purple-800 text-white font-bold text-xs rounded-xl transition border border-purple-500/40"
             >
-              Retry Stream Mirror
+              Tentar novamente
             </button>
             <button
               onClick={onBack}
               className="px-6 py-2.5 bg-[#662D91] hover:bg-purple-700 text-white font-bold text-xs rounded-xl transition"
             >
-              Return to Catalog
+              Voltar ao catalogo
             </button>
           </div>
         </div>
       )}
 
-      {/* Roku SceneGraph On-Screen Display (OSD) Overlay */}
-      <div 
-        className={`absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-black/80 flex flex-col justify-between p-6 transition-opacity duration-300 pointer-events-auto ${
-          showOSD || !isPlaying ? 'opacity-100' : 'opacity-0 pointer-events-none'
-        }`}
-      >
-        {/* Top Header Bar */}
-        <div className="flex items-center justify-between">
+      {/* Fade topo — sempre visivel para parecer tela cheia */}
+      <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-black/80 to-transparent pointer-events-none z-10" />
+
+      {/* Botao voltar + titulo — aparece/some com OSD */}
+      <div className={`absolute inset-x-0 top-0 flex items-center justify-between px-6 pt-5 z-20 transition-opacity duration-300 ${showOSD || !isPlaying ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+        <button
+          onClick={onBack}
+          className="flex items-center gap-2 px-4 py-2 bg-[#1a1426]/90 hover:bg-[#662D91] text-white text-xs font-bold rounded-xl border border-purple-500/30 transition shadow-lg backdrop-blur-md"
+        >
+          <ArrowLeft className="w-4 h-4" />
+          <span>Voltar (Esc)</span>
+        </button>
+        <h1 className="text-base font-bold text-white tracking-wide drop-shadow-lg">{video.title}</h1>
+      </div>
+
+      {/* Centro — botao play grande quando pausado */}
+      {!isPlaying && !hasError && (
+        <div className="absolute inset-0 flex items-center justify-center z-20">
           <button
-            onClick={onBack}
-            className="flex items-center gap-2 px-4 py-2 bg-[#1a1426]/90 hover:bg-[#662D91] text-white text-xs font-bold rounded-xl border border-purple-500/30 transition shadow-lg backdrop-blur-md"
+            onClick={togglePlayPause}
+            className="w-20 h-20 rounded-full bg-[#662D91]/90 hover:bg-[#8034be] text-white flex items-center justify-center shadow-2xl border-2 border-purple-400/50 transition transform hover:scale-110 active:scale-95"
           >
-            <ArrowLeft className="w-4 h-4" />
-            <span>Back to Home (Esc)</span>
+            <Play className="w-8 h-8 fill-current ml-1" />
           </button>
-
-          {/* Video Title Display */}
-          <div className="text-right">
-            <div className="flex items-center gap-2 justify-end text-purple-300 text-[10px] font-mono uppercase">
-              <Tv className="w-3.5 h-3.5 text-purple-400" />
-              <span>Roku SceneGraph Player</span>
-            </div>
-            <h1 className="text-lg font-bold text-white tracking-wide">{video.title}</h1>
-          </div>
         </div>
+      )}
 
-        {/* Center Big Play/Pause Indicator (when paused) */}
-        {!isPlaying && !hasError && (
-          <div className="self-center my-auto">
-            <button
-              onClick={togglePlayPause}
-              className="w-20 h-20 rounded-full bg-[#662D91]/90 hover:bg-[#8034be] text-white flex items-center justify-center shadow-2xl border-2 border-purple-400/50 transition transform hover:scale-110 active:scale-95"
-            >
-              <Play className="w-8 h-8 fill-current ml-1" />
-            </button>
-          </div>
-        )}
-
-        {/* Bottom Control Bar HUD */}
-        <div className="space-y-3 bg-[#100c19]/90 border border-purple-900/40 p-4 rounded-2xl backdrop-blur-md shadow-2xl">
-          {/* Progress Bar Timeline */}
-          <div className="space-y-1">
-            <input
-              type="range"
-              min={0}
-              max={duration || 100}
-              value={currentTime}
-              onChange={handleSeekToProgress}
-              className="w-full h-2 bg-purple-950 rounded-lg appearance-none cursor-pointer accent-[#9e46ea]"
-            />
-            <div className="flex justify-between text-[11px] font-mono text-gray-300">
-              <span>{formatTime(currentTime)}</span>
-              <span>-{formatTime((duration || 0) - currentTime)}</span>
-            </div>
-          </div>
-
-          {/* OSD Control Buttons */}
-          <div className="flex items-center justify-between">
-            {/* Left Controls: Rewind, Play/Pause, Fast Forward */}
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => handleSeekRelative(-10)}
-                className="p-2.5 bg-[#2d2442] hover:bg-[#662D91] text-purple-200 rounded-xl transition"
-                title="Rewind 10s (◄)"
-              >
-                <Rewind className="w-4 h-4 fill-current" />
-              </button>
-
-              <button
-                onClick={togglePlayPause}
-                className="px-5 py-2.5 bg-[#662D91] hover:bg-[#8034be] text-white rounded-xl font-bold text-xs flex items-center gap-2 transition shadow-md"
-              >
-                {isPlaying ? (
-                  <>
-                    <Pause className="w-4 h-4 fill-current" />
-                    <span>Pause</span>
-                  </>
-                ) : (
-                  <>
-                    <Play className="w-4 h-4 fill-current" />
-                    <span>Play</span>
-                  </>
-                )}
-              </button>
-
-              <button
-                onClick={() => handleSeekRelative(10)}
-                className="p-2.5 bg-[#2d2442] hover:bg-[#662D91] text-purple-200 rounded-xl transition"
-                title="Fast Forward 10s (►)"
-              >
-                <FastForward className="w-4 h-4 fill-current" />
-              </button>
+      {/* Fade inferior + controles — aparece/some com OSD */}
+      <div className={`absolute inset-x-0 bottom-0 z-20 transition-opacity duration-300 ${showOSD || !isPlaying ? 'opacity-100' : 'opacity-0 pointer-events-none'}`}>
+        <div className="bg-gradient-to-t from-black/95 via-black/60 to-transparent pt-12 px-6 pb-6">
+          <div className="space-y-3 bg-[#100c19]/80 border border-purple-900/40 p-4 rounded-2xl backdrop-blur-md shadow-2xl">
+            {/* Barra de progresso */}
+            <div className="space-y-1">
+              <input
+                type="range"
+                min={0}
+                max={duration || 100}
+                value={currentTime}
+                onChange={handleSeekToProgress}
+                className="w-full h-2 bg-purple-950 rounded-lg appearance-none cursor-pointer accent-[#9e46ea]"
+              />
+              <div className="flex justify-between text-[11px] font-mono text-gray-300">
+                <span>{formatTime(currentTime)}</span>
+                <span>-{formatTime((duration || 0) - currentTime)}</span>
+              </div>
             </div>
 
-            {/* Video Details Info Pill */}
-            <div className="hidden sm:flex items-center gap-2 text-xs text-gray-300 bg-[#1c152d] px-3 py-1.5 rounded-lg border border-purple-900/40">
-              <Info className="w-3.5 h-3.5 text-purple-400" />
-              <span className="line-clamp-1 max-w-xs">{video.description || video.category}</span>
-            </div>
+            {/* Botoes de controle */}
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-3">
+                <button
+                  onClick={() => handleSeekRelative(-10)}
+                  className="p-2.5 bg-[#2d2442] hover:bg-[#662D91] text-purple-200 rounded-xl transition"
+                  title="Voltar 10s"
+                >
+                  <Rewind className="w-4 h-4 fill-current" />
+                </button>
 
-            {/* Right Controls: Mute */}
-            <button
-              onClick={toggleMute}
-              className="p-2.5 bg-[#2d2442] hover:bg-[#662D91] text-purple-200 rounded-xl transition"
-              title={isMuted ? 'Unmute' : 'Mute'}
-            >
-              {isMuted ? <VolumeX className="w-4 h-4 text-red-400" /> : <Volume2 className="w-4 h-4" />}
-            </button>
+                <button
+                  onClick={togglePlayPause}
+                  className="px-5 py-2.5 bg-[#662D91] hover:bg-[#8034be] text-white rounded-xl font-bold text-xs flex items-center gap-2 transition shadow-md"
+                >
+                  {isPlaying ? (
+                    <><Pause className="w-4 h-4 fill-current" /><span>Pausar</span></>
+                  ) : (
+                    <><Play className="w-4 h-4 fill-current" /><span>Reproduzir</span></>
+                  )}
+                </button>
+
+                <button
+                  onClick={() => handleSeekRelative(10)}
+                  className="p-2.5 bg-[#2d2442] hover:bg-[#662D91] text-purple-200 rounded-xl transition"
+                  title="Avancar 10s"
+                >
+                  <FastForward className="w-4 h-4 fill-current" />
+                </button>
+              </div>
+
+              <div className="hidden sm:flex items-center gap-2 text-xs text-gray-300 bg-[#1c152d] px-3 py-1.5 rounded-lg border border-purple-900/40">
+                <Info className="w-3.5 h-3.5 text-purple-400" />
+                <span className="line-clamp-1 max-w-xs">{video.description || video.category}</span>
+              </div>
+
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={toggleMute}
+                  className="p-2.5 bg-[#2d2442] hover:bg-[#662D91] text-purple-200 rounded-xl transition"
+                  title={isMuted ? 'Ativar som' : 'Silenciar'}
+                >
+                  {isMuted ? <VolumeX className="w-4 h-4 text-red-400" /> : <Volume2 className="w-4 h-4" />}
+                </button>
+
+                {/* Botao fullscreen — canto inferior direito */}
+                <button
+                  onClick={toggleFullscreen}
+                  className="p-2.5 bg-[#2d2442] hover:bg-[#662D91] text-purple-200 rounded-xl transition"
+                  title={isFullscreen ? 'Sair da tela cheia' : 'Tela cheia'}
+                >
+                  {isFullscreen ? <Minimize className="w-4 h-4" /> : <Maximize className="w-4 h-4" />}
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>

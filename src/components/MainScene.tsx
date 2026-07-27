@@ -21,7 +21,7 @@ export const MainScene: React.FC = () => {
   const [focusedIndex, setFocusedIndex] = useState<number>(0);
   const [selectedVideo, setSelectedVideo] = useState<Video | null>(null);
   const [layoutMode, setLayoutMode] = useState<'web' | 'roku'>('web');
-  const [isRemoteOpen, setIsRemoteOpen] = useState<boolean>(true);
+  const [isRemoteOpen, setIsRemoteOpen] = useState<boolean>(false);
   const [isInspectorOpen, setIsInspectorOpen] = useState<boolean>(false);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
@@ -201,8 +201,8 @@ export const MainScene: React.FC = () => {
         {isLoading ? (
           <div className="flex-1 flex flex-col items-center justify-center p-12 text-center">
             <div className="w-14 h-14 border-4 border-purple-900 border-t-[#9e46ea] rounded-full animate-spin mb-4" />
-            <p className="font-bold text-sm text-purple-200">Loading Roku Content Feed...</p>
-            <p className="text-xs text-gray-400 mt-1">Executing LoadFeedTask node</p>
+            <p className="font-bold text-sm text-purple-200">Carregando o conteudo...</p>
+            <p className="text-xs text-gray-400 mt-1">Aguarde um momento...</p>
           </div>
         ) : errorMsg ? (
           <ErrorScreen
@@ -243,15 +243,20 @@ export const MainScene: React.FC = () => {
               playbackHistory={playbackHistory}
             />
           )
-        ) : currentScene === 'PLAYER' && selectedVideo ? (
+        ) : null}
+      </main>
+
+      {/* Player em overlay fixo cobrindo tela inteira incluindo navbar */}
+      {currentScene === 'PLAYER' && selectedVideo && (
+        <div className="fixed inset-0 z-50 bg-black">
           <PlayerScene
             video={selectedVideo}
             onBack={handleBackToHome}
             onUpdatePlayback={handleUpdatePlayback}
             initialTime={playbackHistory[selectedVideo.id]?.currentTime || 0}
           />
-        ) : null}
-      </main>
+        </div>
+      )}
 
       {/* Floating On-Screen Roku TV Remote */}
       <RokuRemote
