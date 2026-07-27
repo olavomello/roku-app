@@ -225,20 +225,20 @@ export const PlayerScene: React.FC<PlayerSceneProps> = ({
           <div className="w-16 h-16 rounded-full bg-red-950/80 border-2 border-red-500 text-red-400 flex items-center justify-center mb-4">
             <AlertCircle className="w-8 h-8" />
           </div>
-          <h2 className="text-xl font-bold text-white mb-2">Stream indisponivel</h2>
+          <h2 className="text-xl font-bold text-white mb-2">Video Stream Unavailable</h2>
           <p className="text-gray-300 text-xs max-w-md mb-6">{errorMessage}</p>
           <div className="flex items-center gap-4">
             <button
               onClick={handleManualRetry}
               className="px-6 py-2.5 bg-purple-900 hover:bg-purple-800 text-white font-bold text-xs rounded-xl transition border border-purple-500/40"
             >
-              Tentar novamente
+              Retry Stream
             </button>
             <button
               onClick={onBack}
               className="px-6 py-2.5 bg-[#662D91] hover:bg-purple-700 text-white font-bold text-xs rounded-xl transition"
             >
-              Voltar ao catalogo
+              Return to Catalog
             </button>
           </div>
         </div>
@@ -254,7 +254,7 @@ export const PlayerScene: React.FC<PlayerSceneProps> = ({
           className="flex items-center gap-2 px-4 py-2 bg-[#1a1426]/90 hover:bg-[#662D91] text-white text-xs font-bold rounded-xl border border-purple-500/30 transition shadow-lg backdrop-blur-md"
         >
           <ArrowLeft className="w-4 h-4" />
-          <span>Voltar (Esc)</span>
+          <span>Back to Home (Esc)</span>
         </button>
         <h1 className="text-base font-bold text-white tracking-wide drop-shadow-lg">{video.title}</h1>
       </div>
@@ -297,7 +297,7 @@ export const PlayerScene: React.FC<PlayerSceneProps> = ({
                 <button
                   onClick={() => handleSeekRelative(-10)}
                   className="p-2.5 bg-[#2d2442] hover:bg-[#662D91] text-purple-200 rounded-xl transition"
-                  title="Voltar 10s"
+                  title="Rewind 10s"
                 >
                   <Rewind className="w-4 h-4 fill-current" />
                 </button>
@@ -307,16 +307,16 @@ export const PlayerScene: React.FC<PlayerSceneProps> = ({
                   className="px-5 py-2.5 bg-[#662D91] hover:bg-[#8034be] text-white rounded-xl font-bold text-xs flex items-center gap-2 transition shadow-md"
                 >
                   {isPlaying ? (
-                    <><Pause className="w-4 h-4 fill-current" /><span>Pausar</span></>
+                    <><Pause className="w-4 h-4 fill-current" /><span>Pause</span></>
                   ) : (
-                    <><Play className="w-4 h-4 fill-current" /><span>Reproduzir</span></>
+                    <><Play className="w-4 h-4 fill-current" /><span>Play</span></>
                   )}
                 </button>
 
                 <button
                   onClick={() => handleSeekRelative(10)}
                   className="p-2.5 bg-[#2d2442] hover:bg-[#662D91] text-purple-200 rounded-xl transition"
-                  title="Avancar 10s"
+                  title="Fast Forward 10s"
                 >
                   <FastForward className="w-4 h-4 fill-current" />
                 </button>
@@ -331,7 +331,7 @@ export const PlayerScene: React.FC<PlayerSceneProps> = ({
                 <button
                   onClick={toggleMute}
                   className="p-2.5 bg-[#2d2442] hover:bg-[#662D91] text-purple-200 rounded-xl transition"
-                  title={isMuted ? 'Ativar som' : 'Silenciar'}
+                  title={isMuted ? 'Unmute' : 'Mute'}
                 >
                   {isMuted ? <VolumeX className="w-4 h-4 text-red-400" /> : <Volume2 className="w-4 h-4" />}
                 </button>

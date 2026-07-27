@@ -75,9 +75,9 @@ export const Navbar: React.FC<NavbarProps> = ({
         <div className="hidden sm:flex items-center gap-1.5 ml-4 pl-4 border-l border-purple-900/50 text-xs text-gray-400">
           <ChevronRight className="w-3.5 h-3.5 text-purple-500" />
           <span className="font-semibold text-purple-200">
-            {currentScene === 'HOME' && 'Inicio'}
-            {currentScene === 'PLAYER' && 'Player'}
-            {currentScene === 'FEED_INSPECTOR' && 'Inspetor de Feed'}
+            {currentScene === 'HOME' && 'Home Catalog'}
+            {currentScene === 'PLAYER' && 'Streaming Player'}
+            {currentScene === 'FEED_INSPECTOR' && 'Feed Inspector'}
           </span>
         </div>
       </div>
@@ -93,10 +93,10 @@ export const Navbar: React.FC<NavbarProps> = ({
                 ? 'bg-[#662D91] text-white border-purple-400 shadow-lg shadow-purple-900/60'
                 : 'bg-[#1e172e] text-purple-200 border-purple-900/40 hover:bg-[#2e2345]'
             }`}
-            title="Alternar entre layout Web e layout Roku TV"
+            title="Toggle between Web/App Layout and Roku TV Layout"
           >
             <Tv className="w-3.5 h-3.5 text-purple-300" />
-            <span>{layoutMode === 'roku' ? 'Layout Roku TV' : 'Layout Web'}</span>
+            <span>{layoutMode === 'roku' ? '📺 Roku TV Layout' : '💻 Web/App Layout'}</span>
           </button>
         )}
 
@@ -109,7 +109,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             title="Download roku-channel.zip for sideloading on Roku TV"
           >
             <Download className="w-3.5 h-3.5 text-purple-300" />
-            <span className="hidden md:inline">Baixar ZIP Roku</span>
+            <span className="hidden md:inline">Download Roku ZIP</span>
           </a>
         )}
 
@@ -124,7 +124,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           title="Toggle On-Screen Roku Remote"
         >
           <Sparkles className="w-3.5 h-3.5 text-purple-300" />
-          <span>Controle Remoto</span>
+          <span>Remote Control</span>
         </button>
 
         {/* Developer Logs / Inspector Button (Only active in Dev Mode) */}
@@ -135,7 +135,7 @@ export const Navbar: React.FC<NavbarProps> = ({
             title="SceneGraph Logs & Feed Debugger (Dev Mode)"
           >
             <Code className="w-3.5 h-3.5 text-purple-400" />
-            <span className="hidden sm:inline">Inspetor</span>
+            <span className="hidden sm:inline">Feed Inspector</span>
           </button>
         )}
 
