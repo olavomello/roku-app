@@ -3,14 +3,14 @@
 ' Shows: poster, title, category, rating badge, duration pill, focus ring.
 
 sub init()
-    m.poster       = m.top.findNode("poster")
-    m.title        = m.top.findNode("title")
-    m.category     = m.top.findNode("category")
-    m.rating       = m.top.findNode("rating")
-    m.durationTag  = m.top.findNode("durationTag")
-    m.focusBorder  = m.top.findNode("focusBorder")
+    m.poster        = m.top.findNode("poster")
+    m.title         = m.top.findNode("title")
+    m.category      = m.top.findNode("category")
+    m.rating        = m.top.findNode("rating")
+    m.durationTag   = m.top.findNode("durationTag")
+    m.focusBorder   = m.top.findNode("focusBorder")
     m.focusGradient = m.top.findNode("focusGradient")
-    m.playIcon     = m.top.findNode("playIcon")
+    m.playIcon      = m.top.findNode("playIcon")
 end sub
 
 sub onItemContentChanged()
@@ -40,14 +40,16 @@ sub onItemContentChanged()
     end if
     m.category.text = cat
 
-    ' Rating badge
-    rVal = "G"
-    if item.rating <> invalid and item.rating <> ""
-        rVal = item.rating
-    else if item.ratingValue <> invalid and item.ratingValue <> ""
-        rVal = item.ratingValue
+    ' Rating badge (node may not exist in XML)
+    if m.rating <> invalid
+        rVal = "G"
+        if item.rating <> invalid and item.rating <> ""
+            rVal = item.rating
+        else if item.ratingValue <> invalid and item.ratingValue <> ""
+            rVal = item.ratingValue
+        end if
+        m.rating.text = rVal
     end if
-    m.rating.text = rVal
 
     ' Duration pill  mm:ss
     if m.durationTag <> invalid
@@ -66,9 +68,9 @@ end sub
 sub onFocusPercentChanged()
     focused = (m.top.focusPercent > 0.5)
 
-    m.focusBorder.visible   = focused
-    m.focusGradient.visible = focused
-    m.playIcon.visible      = focused
+    if m.focusBorder  <> invalid then m.focusBorder.visible   = focused
+    if m.focusGradient <> invalid then m.focusGradient.visible = focused
+    if m.playIcon     <> invalid then m.playIcon.visible      = focused
 
     if focused
         m.title.color = "0xFFFFFFFF"
