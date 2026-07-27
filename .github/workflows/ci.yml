@@ -34,7 +34,7 @@ jobs:
         run: npm run test:roku
 
       - name: Verify Roku Channel Packaging
-        run: npm run package:roku
+        run: npm run package
 
       - name: Verify Web Simulator Build
         run: npm run build
