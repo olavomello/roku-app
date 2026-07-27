@@ -2,7 +2,6 @@ import rokuDeploy from 'roku-deploy';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
-import { generateRokuAssets } from './generate_assets.js';
 
 function loadEnv() {
   const envPath = path.join(process.cwd(), '.env');
@@ -26,9 +25,6 @@ function loadEnv() {
 export async function packageRoku() {
   loadEnv();
   console.log('📦 Packaging Roku SceneGraph Channel into deploy/roku-channel.zip using roku-deploy...');
-
-  // Ensure HD & FHD images are present
-  generateRokuAssets();
 
   const deployDir = path.join(process.cwd(), 'deploy');
   if (!fs.existsSync(deployDir)) {

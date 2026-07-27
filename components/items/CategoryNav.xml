@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!-- CategoryNav: horizontal focusable category tab bar for HomeScene nav area.
+     Pills are created dynamically in BRS from the categories field.
+     Handles Left/Right/OK (select category) and Down (return focus to RowList). -->
+<component name="CategoryNav" extends="Group">
+    <script type="text/brightscript" uri="pkg:/components/items/CategoryNav.brs" />
+    <interface>
+        <!-- Array of category name strings, one per RowList row -->
+        <field id="categories"       type="stringarray" onChange="onCategoriesChanged" />
+        <!-- Set by HomeScene to signal focus state for visual highlight -->
+        <field id="navFocused"       type="boolean"     value="false" onChange="onNavFocusedChanged" />
+        <!-- Fires when user presses OK on a category; value = row index -->
+        <field id="selectedRowIndex" type="integer"     value="0" />
+        <!-- Toggled when Down key is pressed to return focus to RowList -->
+        <field id="requestFocusDown" type="boolean"     value="false" />
+    </interface>
+</component>

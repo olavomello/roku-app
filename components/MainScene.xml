@@ -17,8 +17,8 @@
         <!-- Root background — mirrors bg-[#0b0813] on root <div> -->
         <Rectangle id="background" width="1920" height="1080" color="0x0B0813FF" />
 
-        <!-- HOME scene — mirrors: currentScene === 'HOME' && <HomeScene ...> -->
-        <HomeScene id="homeScene" visible="true" />
+        <!-- HOME scene — explicit 1920x1080 at origin -->
+        <HomeScene id="homeScene" translation="[0, 0]" width="1920" height="1080" visible="true" />
 
         <!-- PLAYER scene — mirrors: currentScene === 'PLAYER' && <PlayerScene ...> -->
         <PlayerScene id="playerScene" visible="false" />

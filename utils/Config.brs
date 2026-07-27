@@ -8,6 +8,6 @@ function GetRokuConfig() as Object
         version:            "1.0.0",
         devMode:            true,
         wifiCheckIntervalMs: 120000,
-        defaultFeedUrl:     "pkg:/feeds/sample-feed.json"
+        defaultFeedUrl:     "https://raw.githubusercontent.com/olavomello/roku-app/refs/heads/main/feeds/sample-feed.json"
     }
 end function

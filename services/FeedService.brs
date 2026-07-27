@@ -5,5 +5,5 @@
 ' Mirrors: static loadFeed(feedUrl?) URL selection
 ' Returns the pkg: local feed path or custom remote URL
 function FeedService_GetFeedUrl() as String
-    return "pkg:/feeds/sample-feed.json"
+    return "https://raw.githubusercontent.com/olavomello/roku-app/refs/heads/main/feeds/sample-feed.json"
 end function

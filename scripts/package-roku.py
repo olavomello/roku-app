@@ -1,14 +1,7 @@
 #!/usr/bin/env python3
 import os
-import sys
 import zlib
 import zipfile
-
-scripts_dir = os.path.dirname(os.path.abspath(__file__))
-if scripts_dir not in sys.path:
-    sys.path.insert(0, scripts_dir)
-
-from generate_assets import generate_roku_assets
 
 def load_env():
     env_path = os.path.join(os.getcwd(), ".env")
@@ -34,9 +27,6 @@ def package_roku():
     output_filename = os.path.join(deploy_dir, "roku-channel.zip")
     public_output = os.path.join("public", "roku-channel.zip")
     
-    # 1. Ensure required assets exist
-    generate_roku_assets()
-
     # Fixed timestamp for deterministic, clean ZIP headers (2026-01-01 00:00:00)
     zip_date_time = (2026, 1, 1, 0, 0, 0)
 

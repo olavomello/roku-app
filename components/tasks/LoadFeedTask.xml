@@ -11,7 +11,7 @@
 
     <interface>
         <!-- Mirrors: fetchFeed(url) parameter — defaults to local pkg feed -->
-        <field id="url" type="string" value="pkg:/feeds/sample-feed.json" />
+        <field id="url" type="string" value="https://raw.githubusercontent.com/olavomello/roku-app/refs/heads/main/feeds/sample-feed.json" />
         <!-- Mirrors: setFeedData(data) — ContentNode tree output for RowList -->
         <field id="content" type="node" />
         <!-- Mirrors: setErrorMsg(msg) — error string output -->

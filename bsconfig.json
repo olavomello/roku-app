@@ -1,0 +1,19 @@
+{
+  "rootDir": ".",
+  "stagingDir": "build",
+  "outDir": "deploy",
+  "outFile": "roku-channel.zip",
+  "files": [
+    "manifest",
+    "source/**/*",
+    "components/**/*",
+    "services/**/*",
+    "models/**/*",
+    "utils/**/*",
+    "feeds/**/*",
+    "assets/**/*"
+  ],
+  "autoImportComponentScript": true,
+  "sourceMap": false,
+  "retainStagingDir": false
+}

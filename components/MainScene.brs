@@ -81,9 +81,14 @@ sub onFeedLoaded()
     if m.loadingOverlay <> invalid then m.loadingOverlay.visible = false
     if m.errorOverlay <> invalid then m.errorOverlay.visible = false
 
-    ' Initial focus -- mirrors: HomeScene receives focus after load
+    ' Pass focus to the RowList inside HomeScene
     if m.homeScene <> invalid
-        m.homeScene.setFocus(true)
+        rowList = m.homeScene.findNode("rowList")
+        if rowList <> invalid
+            rowList.setFocus(true)
+        else
+            m.homeScene.setFocus(true)
+        end if
     end if
 end sub
 
@@ -132,14 +137,20 @@ end sub
 
 ' Mirrors: handleBackToHome() -> setCurrentScene('HOME')
 sub navigateToHome()
-    LogInfo(m.logTag, "Returning to HomeScene -- mirrors handleBackToHome()")
+    LogInfo(m.logTag, "Returning to HomeScene")
     if m.playerScene <> invalid
         m.playerScene.control = "stop"
         m.playerScene.visible = false
     end if
     if m.homeScene <> invalid
         m.homeScene.visible = true
-        m.homeScene.setFocus(true)
+        ' Focus the RowList directly -- HomeScene is a Group, not focusable
+        rowList = m.homeScene.findNode("rowList")
+        if rowList <> invalid
+            rowList.setFocus(true)
+        else
+            m.homeScene.setFocus(true)
+        end if
     end if
 end sub
 
